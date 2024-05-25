@@ -49,10 +49,6 @@ export default function PageLayout({children}) {
                 
                 <Box 
                     sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100vh',
                         marginX: contentMarginX,
                     }}
                 >
