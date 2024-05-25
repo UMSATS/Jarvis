@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './index.css';
 import Homepage from './pages/Homepage';
 import PageLayout from './components/PageLayout';
+import Homepage from './pages/Homepage';
+import TestPage from './pages/TestPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,6 +14,7 @@ root.render(
       <Router>
         <Routes>
           <Route path="/" element={<Homepage />} />
+          <Route path="/test" element={<TestPage />} />
         </Routes>
       </Router>
     </PageLayout>

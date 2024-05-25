@@ -5,6 +5,7 @@ import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 
 export default function PageLayout({children}) {
+    const contentMarginX = '50px';
     const sidebarWidth = '240px';
 
     const [sidebarOpen, setSidebarOpen] = React.useState(false);
@@ -39,7 +40,7 @@ export default function PageLayout({children}) {
                 <Button 
                     onClick={() => setSidebarOpen(!sidebarOpen)}
                     sx={{
-                        position: 'absolute',
+                        position: 'fixed',
                         fontSize: '20px',
                     }}
                 >
@@ -51,7 +52,8 @@ export default function PageLayout({children}) {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        height: '100vh'
+                        height: '100vh',
+                        marginX: contentMarginX,
                     }}
                 >
                     {children}
