@@ -6,10 +6,10 @@ Wraps the router in index.js directly, making each page simpler to implement.
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import PageList from './PageList.jsx'
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
+import TabList from './TabList.jsx';
 import banner from '../assets/jarvis_banner.png';
 
 export default function PageLayout({children}) {
@@ -42,8 +42,8 @@ export default function PageLayout({children}) {
                 variant='persistent'
             >
                 <Box display='flex' flexDirection='column'>
-                    <img src={banner} alt='banner'></img>
-                    <PageList />
+                    <img src={banner} alt='banner' />
+                    <TabList />
                 </Box>
             </Drawer>
             
