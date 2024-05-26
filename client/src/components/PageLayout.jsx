@@ -1,3 +1,8 @@
+/*
+Implements a sidebar and its toggle button into the flow of the website.
+Wraps the router in index.js directly, making each page simpler to implement.
+*/
+
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -59,7 +64,7 @@ export default function PageLayout({children}) {
                         marginX: contentMarginX,
                     }}
                 >
-                    {children}
+                    {children} {/* Page Content */}
                 </Box>
             </Box>
         </Box>
