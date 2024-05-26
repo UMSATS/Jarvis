@@ -1,9 +1,10 @@
 /*
 Implements a sidebar and its toggle button into the flow of the website.
-Wraps the router in index.js directly, making each page simpler to implement.
+Wraps the routes in index.js directly, making each page simpler to implement.
 */
 
 import React from 'react';
+import { Outlet  } from "react-router-dom";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
@@ -12,7 +13,7 @@ import Button from '@mui/material/Button';
 import TabList from './TabList.jsx';
 import banner from '../assets/jarvis_banner.png';
 
-export default function PageLayout({children}) {
+export default function PageLayout() {
     const contentMarginX = '60px';
     const sidebarWidth = '320px';
 
@@ -67,7 +68,7 @@ export default function PageLayout({children}) {
                         marginX: contentMarginX,
                     }}
                 >
-                    {children} {/* Page Content */}
+                    <Outlet />
                 </Box>
             </Box>
         </Box>
