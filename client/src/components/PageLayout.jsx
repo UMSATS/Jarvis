@@ -10,10 +10,11 @@ import PageList from './PageList.jsx'
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
+import banner from '../assets/jarvis_banner.png';
 
 export default function PageLayout({children}) {
     const contentMarginX = '60px';
-    const sidebarWidth = '300px';
+    const sidebarWidth = '320px';
 
     const mobile = useMediaQuery(useTheme().breakpoints.down('sm'));
     const [sidebarOpen, setSidebarOpen] = React.useState(!mobile);
@@ -35,13 +36,15 @@ export default function PageLayout({children}) {
     return (
         <Box sx={classes.root}>
             <Drawer
-                open={sidebarOpen}
                 sx={classes.drawer}
+                open={sidebarOpen}
                 anchor='left'
                 variant='persistent'
             >
-                
-                <PageList />
+                <Box display='flex' flexDirection='column'>
+                    <img src={banner} alt='banner'></img>
+                    <PageList />
+                </Box>
             </Drawer>
             
             <Box sx={classes.content}>
