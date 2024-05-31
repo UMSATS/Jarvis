@@ -16,7 +16,7 @@ export default function TabListItem(props) {
             >
                 <ListItemButton selected={window.location.pathname === props.href}>
                     <ListItemIcon>
-                        <img src={props.path} alt='icon'/>
+                        <img src={props.imgPath} alt='icon'/>
                     </ListItemIcon>
                     <ListItemText primary={props.name} />
                 </ListItemButton>

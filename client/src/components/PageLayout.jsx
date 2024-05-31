@@ -43,11 +43,13 @@ export default function PageLayout() {
                 variant='persistent'
             >
                 <Box display='flex' flexDirection='column'>
-                    <img src={banner} alt='banner' />
+                    <img src={banner} alt='banner' style={{padding: '8px', borderRadius: '20px'}}/>
                     <TabList />
                 </Box>
             </Drawer>
             
+            
+
             <Box sx={classes.content}>
                 <Button 
                     onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -60,15 +62,19 @@ export default function PageLayout() {
                 >
                     ☰
                 </Button>
-
-                <Box 
-                    sx={{
-                        display: mobile && sidebarOpen ? 'none' : '', // Prevents scrolling when sidebar is open on mobile, 
-                                                                      // but loses scroll position when sidebar is closed
-                        marginX: contentMarginX,
-                    }}
-                >
-                    <Outlet />
+                
+                <Box sx={{}}>
+                    <Box sx={{height: '60px', top: '0', bgcolor: 'white', position: 'fixed', width: '100%'}} />
+                    <Box 
+                        sx={{
+                            display: mobile && sidebarOpen ? 'none' : '', // Prevents scrolling when sidebar is open on mobile, 
+                                                                        // but loses scroll position when sidebar is closed
+                            marginX: contentMarginX,
+                            paddingTop: '60px'
+                        }}
+                    >
+                        <Outlet/> {/* Something like style={{mobile && sidebarOpen ? overflow-y = 'disable'}}} */}
+                    </Box>
                 </Box>
             </Box>
         </Box>
