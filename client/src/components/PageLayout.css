@@ -1,0 +1,55 @@
+:root {
+    --sidebarWidth: 320px;
+}
+
+.content {
+    margin: 0 60px;
+}
+
+.content.mobile {
+    margin: 0 20px;
+}
+
+.header {
+    height: 50px;
+    background-color: white;
+    position: sticky;
+    top: 0;
+    width: 100%;
+}
+
+.header.mobile {
+    height: 50px;
+}
+
+.sidebar {
+    width: var(--sidebarWidth);
+    .MuiDrawer-paper {
+        width: var(--sidebarWidth);
+    }
+}
+
+.sidebar.mobile {
+    width: 100%;
+    .MuiDrawer-paper {
+        width: 100%;
+    }
+}
+
+.sidebar-banner-image {
+    padding: 8px;
+    border-radius: 20px;
+}
+
+.content-transition {
+    transition: margin-left 225ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.content-transition.closed {
+    margin-left: 0;
+}
+
+.content-transition.open {
+    margin-left: var(--sidebarWidth);
+}
+

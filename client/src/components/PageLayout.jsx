@@ -3,6 +3,7 @@ Implements a sidebar and its toggle button into the flow of the website.
 Wraps the routes in index.js directly, making each page simpler to implement.
 */
 
+import './PageLayout.css';
 import React from 'react';
 import { Outlet  } from "react-router-dom";
 import { useTheme } from '@mui/material/styles';
@@ -14,45 +15,31 @@ import TabList from './TabList.jsx';
 import banner from '../assets/jarvis_banner.png';
 
 export default function PageLayout() {
-    const contentMarginX = '60px';
-    const sidebarWidth = '320px';
-
     const mobile = useMediaQuery(useTheme().breakpoints.down('sm'));
     const [sidebarOpen, setSidebarOpen] = React.useState(!mobile);
 
-    const classes = {
-        root: {},
-        content: {
-            marginLeft: !mobile && sidebarOpen ? sidebarWidth : 0,
-            transition: 'margin-left 225ms cubic-bezier(0, 0, 0.2, 1)',
-        },
-        drawer: {
-            width: mobile ? '100%' : sidebarWidth,
-            ".MuiDrawer-paper": {
-              width: mobile ? '100%' : sidebarWidth,
-            },
-        }
-    };
+    function mobileResponsive(className) {
+        return mobile ? className.concat(' mobile') : className;
+    }
 
     return (
-        <Box sx={classes.root}>
+        <Box>
             <Drawer
-                sx={classes.drawer}
+                className={mobileResponsive('sidebar')}
                 open={sidebarOpen}
-                anchor='left'
                 variant='persistent'
             >
                 <Box display='flex' flexDirection='column'>
-                    <img src={banner} alt='banner' style={{padding: '8px', borderRadius: '20px'}}/>
+                    <img src={banner} alt='banner' className='sidebar-banner-image'/>
                     <TabList />
                 </Box>
             </Drawer>
             
-            
-
-            <Box sx={classes.content}>
+            <Box className={sidebarOpen ? 'content-transition open' : 'content-transition closed'}>
                 <Button 
                     onClick={() => setSidebarOpen(!sidebarOpen)}
+                    // Replacing this with a css class changes some Material styling
+                    // and also stops it from being in a fixed position
                     sx={{
                         position: 'fixed',
                         zIndex: '1200',
@@ -63,17 +50,15 @@ export default function PageLayout() {
                     ☰
                 </Button>
                 
-                <Box sx={{}}>
-                    <Box sx={{height: '60px', top: '0', bgcolor: 'white', position: 'fixed', width: '100%'}} />
-                    <Box 
-                        sx={{
-                            display: mobile && sidebarOpen ? 'none' : '', // Prevents scrolling when sidebar is open on mobile, 
-                                                                        // but loses scroll position when sidebar is closed
-                            marginX: contentMarginX,
-                            paddingTop: '60px'
-                        }}
-                    >
-                        <Outlet/> {/* Something like style={{mobile && sidebarOpen ? overflow-y = 'disable'}}} */}
+                <Box display='flex' flexDirection='column'
+                    // Without disabling the content, when the sidebar is open on mobile,
+                    // it has a pseudo min-width of about 440px for some reason. Also,
+                    // scrolling the page is possible while the sidebar is open.
+                    sx={{display: mobile && sidebarOpen ? 'none' : 'flex'}} 
+                >
+                    <Box className={mobileResponsive('header')} />
+                    <Box className={mobileResponsive('content')}>
+                        <Outlet/> {/* For the scrolling issue, maybe something like style={{mobile && sidebarOpen ? overflow-y = 'disable'}}} */}
                     </Box>
                 </Box>
             </Box>
