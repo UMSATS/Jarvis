@@ -19,7 +19,7 @@ export default function PageLayout() {
     const [sidebarOpen, setSidebarOpen] = React.useState(!mobile);
 
     function mobileResponsive(className) {
-        return mobile ? className.concat(' mobile') : className;
+        return mobile ? className + ' mobile' : className;
     }
 
     return (
@@ -35,7 +35,7 @@ export default function PageLayout() {
                 </Box>
             </Drawer>
             
-            <Box className={sidebarOpen ? 'content-transition open' : 'content-transition closed'}>
+            <Box className={'content-transition' + (sidebarOpen ? ' open' : ' closed')}>
                 <Button 
                     onClick={() => setSidebarOpen(!sidebarOpen)}
                     // Replacing this with a css class changes some Material styling
