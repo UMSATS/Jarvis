@@ -1,9 +1,26 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, styled } from '@mui/material/styles';
+import Drawer from '@mui/material/Drawer';
+
+export const Sidebar = styled(Drawer)(() => ({
+    ".MuiPaper-root": {
+        backgroundColor: theme.palette.background.sidebar
+    }
+}));
 
 export const theme = createTheme({
+    components: {
+        MuiCssBaseline: {
+            styleOverrides: (themeParam) => `
+                body {
+                    background-color: ${themeParam.palette.background.page};
+                }`
+        }
+    },
     palette: {
-        primary: {
-            main: '#151515'
+        mode: 'dark',
+        background: {
+            page: '#151515',
+            sidebar: '#303030'
         }
     },
     breakpoints: {

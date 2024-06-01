@@ -7,10 +7,9 @@ import './PageLayout.css';
 import React from 'react';
 import { Outlet  } from "react-router-dom";
 import { ThemeProvider } from '@mui/material/styles';
-import { theme } from './theme.jsx';
+import { theme, Sidebar } from './theme.jsx';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import TabList from './TabList.jsx';
 import banner from '../assets/jarvis_banner.png';
@@ -28,7 +27,7 @@ export default function PageLayout() {
         <ThemeProvider theme={theme}>
         <CssBaseline />
         <Box>
-            <Drawer
+            <Sidebar
                 className={mobileResponsive('sidebar')}
                 open={sidebarOpen}
                 variant='persistent'
@@ -37,7 +36,7 @@ export default function PageLayout() {
                     <img src={banner} alt='banner' className='sidebar-banner-image'/>
                     <TabList />
                 </Box>
-            </Drawer>
+            </Sidebar>
             
             <Box className={'content-transition' + (sidebarOpen ? ' open' : ' closed')}>
                 <Button 
@@ -60,7 +59,7 @@ export default function PageLayout() {
                     // scrolling the page is possible while the sidebar is open.
                     sx={{display: mobile && sidebarOpen ? 'none' : 'flex'}} 
                 >
-                    <Box className={mobileResponsive('header')} />
+                    <Box className={mobileResponsive('header')} backgroundColor='background.page'/>
                     <Box className={mobileResponsive('content')}>
                         <Outlet/> {/* For the scrolling issue, maybe something like style={{mobile && sidebarOpen ? overflow-y = 'disable'}}} */}
                     </Box>
