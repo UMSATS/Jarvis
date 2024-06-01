@@ -14,9 +14,11 @@ export default function TabListItem(props) {
                 color='inherit'
                 width='100%'
             >
-                <ListItemButton selected={window.location.pathname === props.href}>
+                <ListItemButton selected={window.location.pathname === props.href} 
+                                sx={{paddingLeft: '8px', paddingRight: '8px'}}
+                >
                     <ListItemIcon>
-                        <img src={props.imgPath} alt='icon'/>
+                        {props.icon}
                     </ListItemIcon>
                     <ListItemText primary={props.name} />
                 </ListItemButton>
