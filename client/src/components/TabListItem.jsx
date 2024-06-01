@@ -20,7 +20,7 @@ export default function TabListItem(props) {
                     <ListItemIcon>
                         {props.icon}
                     </ListItemIcon>
-                    <ListItemText primary={props.name} />
+                    <ListItemText primary={props.name} sx={{marginLeft: '8px'}}/>
                 </ListItemButton>
             </Link>
         </ListItem>
