@@ -1,9 +1,21 @@
 import { createTheme, styled } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
+import ListItemButton from '@mui/material/ListItemButton';
 
 export const Sidebar = styled(Drawer)(() => ({
-    ".MuiPaper-root": {
+    '.MuiPaper-root': {
         backgroundColor: theme.palette.background.sidebar
+    }
+}));
+
+export const StyledListItemButton = styled(ListItemButton)(() => ({
+    paddingLeft: '8px',
+    paddingRight: '8px',
+    '&.Mui-selected': {
+        backgroundColor: theme.palette.greys.light,
+        ':hover': {
+            backgroundColor: theme.palette.greys.medium
+        }
     }
 }));
 
@@ -21,6 +33,10 @@ export const theme = createTheme({
         background: {
             page: '#151515',
             sidebar: '#303030'
+        },
+        greys: {
+            light: '#4d4d4d',
+            medium: '#444444'
         }
     },
     breakpoints: {

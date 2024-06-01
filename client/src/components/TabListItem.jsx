@@ -1,9 +1,9 @@
 import React from 'react';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Link from '@mui/material/Link';
+import { StyledListItemButton } from './theme.jsx';
 
 export default function TabListItem(props) {
     return (
@@ -14,14 +14,12 @@ export default function TabListItem(props) {
                 color='inherit'
                 width='100%'
             >
-                <ListItemButton selected={window.location.pathname === props.href} 
-                                sx={{paddingLeft: '8px', paddingRight: '8px'}}
-                >
+                <StyledListItemButton selected={window.location.pathname === props.href}>
                     <ListItemIcon>
                         {props.icon}
                     </ListItemIcon>
                     <ListItemText primary={props.name} sx={{marginLeft: '8px'}}/>
-                </ListItemButton>
+                </StyledListItemButton>
             </Link>
         </ListItem>
     );
