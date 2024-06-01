@@ -6,16 +6,18 @@ Wraps the routes in index.js directly, making each page simpler to implement.
 import './PageLayout.css';
 import React from 'react';
 import { Outlet  } from "react-router-dom";
-import { useTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from './theme.jsx';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import TabList from './TabList.jsx';
 import banner from '../assets/jarvis_banner.png';
+import CssBaseline from '@mui/material/CssBaseline';
 
 export default function PageLayout() {
-    const mobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+    const mobile = useMediaQuery(theme.breakpoints.down('mobile'));
     const [sidebarOpen, setSidebarOpen] = React.useState(!mobile);
 
     function mobileResponsive(className) {
@@ -23,6 +25,8 @@ export default function PageLayout() {
     }
 
     return (
+        <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Box>
             <Drawer
                 className={mobileResponsive('sidebar')}
@@ -63,5 +67,6 @@ export default function PageLayout() {
                 </Box>
             </Box>
         </Box>
+        </ThemeProvider>
     );
 }
