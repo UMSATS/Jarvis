@@ -2,7 +2,7 @@ import React from 'react';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Link from '@mui/material/Link';
-import { StyledListItemButton, StyledListItemText, listItemTypography } from './theme.jsx';
+import * as styles from '../styled-components/TabListItem.js';
 
 export default function TabListItem(props) {
     return (
@@ -13,12 +13,12 @@ export default function TabListItem(props) {
                 color='inherit'
                 width='100%'
             >
-                <StyledListItemButton selected={window.location.pathname === props.href} disableRipple>
+                <styles.StyledListItemButton selected={window.location.pathname === props.href} disableRipple>
                     <ListItemIcon>
                         {props.icon}
                     </ListItemIcon>
-                    <StyledListItemText primary={props.name} primaryTypographyProps={listItemTypography}/>
-                </StyledListItemButton>
+                    <styles.StyledListItemText primary={props.name} primaryTypographyProps={styles.listItemTypography}/>
+                </styles.StyledListItemButton>
             </Link>
         </ListItem>
     );
