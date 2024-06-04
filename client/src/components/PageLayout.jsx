@@ -8,10 +8,9 @@ import React from 'react';
 import { Outlet  } from "react-router-dom";
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './theme.jsx';
-import { Sidebar } from '../styled-components/Sidebar.js';
+import { Sidebar, StyledButton } from '../styled-components/Sidebar.js';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import TabList from './TabList.jsx';
 import banner from '../assets/jarvis_banner.png';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -40,19 +39,12 @@ export default function PageLayout() {
             </Sidebar>
             
             <Box className={'content-transition' + (sidebarOpen ? ' open' : ' closed')}>
-                <Button 
+                <StyledButton 
                     onClick={() => setSidebarOpen(!sidebarOpen)}
-                    // Replacing this with a css class changes some Material styling
-                    // and also stops it from being in a fixed position
-                    sx={{
-                        position: 'fixed',
-                        zIndex: '1200',
-                        right: mobile && sidebarOpen ? '0' : '',
-                        fontSize: '20px',
-                    }}
-                >
+                    sx={{right: mobile && sidebarOpen ? '0' : ''}}
+                    disableTouchRipple>
                     ☰
-                </Button>
+                </StyledButton>
                 
                 <Box display='flex' flexDirection='column'
                     // Without disabling the content, when the sidebar is open on mobile,
