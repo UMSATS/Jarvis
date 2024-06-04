@@ -6,7 +6,7 @@ import './TabListIcons.css';
 
 export default function TabList() {
     return (
-        <List>
+        <List disablePadding>
           <TabListItem icon={<DashboardIcon />} name='Dashboard' href='/' />
           <TabListItem icon={<ExperimentIcon />} name='Experiment Tab' href='/experiments'/>
           <TabListItem name='Home Page' href='/home' />

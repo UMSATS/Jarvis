@@ -1,12 +1,11 @@
 import React from 'react';
-import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Link from '@mui/material/Link';
 import * as styles from '../styled-components/TabListItem.js';
 
 export default function TabListItem(props) {
     return (
-        <ListItem sx={{padding: '4px 8px'}}>
+        <styles.StyledListItem>
             <Link
                 href={props.href}
                 underline='none'
@@ -20,6 +19,6 @@ export default function TabListItem(props) {
                     <styles.StyledListItemText primary={props.name} primaryTypographyProps={styles.listItemTypography}/>
                 </styles.StyledListItemButton>
             </Link>
-        </ListItem>
+        </styles.StyledListItem>
     );
 }
