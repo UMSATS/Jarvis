@@ -1,6 +1,7 @@
 import { createTheme, styled } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
 
 export const Sidebar = styled(Drawer)(() => ({
     '.MuiPaper-root': {
@@ -9,8 +10,10 @@ export const Sidebar = styled(Drawer)(() => ({
 }));
 
 export const StyledListItemButton = styled(ListItemButton)(() => ({
-    paddingLeft: '8px',
+    paddingLeft: '2px',
     paddingRight: '8px',
+    borderRadius: '8px',
+    height: '64px',
     '&.Mui-selected': {
         backgroundColor: theme.palette.greys.light,
         ':hover': {
@@ -18,6 +21,14 @@ export const StyledListItemButton = styled(ListItemButton)(() => ({
         }
     }
 }));
+
+export const StyledListItemText = styled(ListItemText)(() => ({
+    marginLeft: '8px',
+}));
+
+export const listItemTypography = {
+    fontFamily: 'Arial'
+}
 
 export const theme = createTheme({
     components: {
