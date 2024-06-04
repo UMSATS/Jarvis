@@ -26,5 +26,11 @@ export const StyledListItemText = styled(ListItemText)(() => ({
 }));
 
 export const listItemTypography = {
-    fontFamily: 'Arial'
+    fontFamily: 'Poppins',
+    fontWeight: '400'
+}
+
+export const listItemTypographySelected = {
+    fontFamily: 'Poppins',
+    fontWeight: '700'
 }

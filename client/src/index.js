@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './index.css';
+import '@fontsource/poppins/400.css';
 import PageLayout from './components/PageLayout';
 import Dashboard from './pages/Dashboard';
 import ExperimentTab from './pages/ExperimentTab';
