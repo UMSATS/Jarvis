@@ -24,13 +24,3 @@ export const StyledListItemButton = styled(ListItemButton)(() => ({
 export const StyledListItemText = styled(ListItemText)(() => ({
     marginLeft: '8px',
 }));
-
-export const listItemTypography = {
-    fontFamily: 'Poppins',
-    fontWeight: '400'
-}
-
-export const listItemTypographySelected = {
-    fontFamily: 'Poppins',
-    fontWeight: '700'
-}

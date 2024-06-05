@@ -14,9 +14,13 @@ export default function TabListItem(props) {
             >
                 <styles.StyledListItemButton selected={selected} disableRipple>
                     {props.icon}
-                    <styles.StyledListItemText primary={props.name}
-                        primaryTypographyProps={selected ? styles.listItemTypographySelected
-                                                         : styles.listItemTypography}/>
+                    <styles.StyledListItemText 
+                        primary={props.name}
+                        primaryTypographyProps={{
+                            variant: 'tabListItem',
+                            fontWeight: selected ? '700' : ''
+                        }}
+                    />
                 </styles.StyledListItemButton>
             </Link>
         </styles.StyledListItem>

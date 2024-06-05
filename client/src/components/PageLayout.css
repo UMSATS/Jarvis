@@ -1,5 +1,5 @@
 :root {
-    --sidebarWidth: 360px;
+    --sidebarWidth: 400px;
 }
 
 .content {
@@ -37,8 +37,8 @@
 }
 
 .sidebar-banner-image {
-    padding: 12px;
-    border-radius: 20px;
+    margin: 12px;
+    border-radius: 8px;
 }
 
 .content-transition {

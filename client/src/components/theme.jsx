@@ -20,6 +20,14 @@ export const theme = createTheme({
             medium: '#444444'
         }
     },
+    typography: {
+        tabListItem: {
+            fontFamily: 'Poppins',
+            fontSize: '1.1em',
+            fontWeight: '400',
+            letterSpacing: '0.015em'
+        }
+    },
     breakpoints: {
         values: {
             xs: 0,
