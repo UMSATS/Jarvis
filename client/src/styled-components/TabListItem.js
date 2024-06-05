@@ -9,10 +9,10 @@ export const StyledListItem = styled(ListItem)(() => ({
 }));
 
 export const StyledListItemButton = styled(ListItemButton)(() => ({
-    paddingLeft: '2px',
+    paddingLeft: '0',
     paddingRight: '8px',
     borderRadius: '8px',
-    height: '64px',
+    height: '60px',
     '&.Mui-selected': {
         backgroundColor: theme.palette.greys.light,
         ':hover': {

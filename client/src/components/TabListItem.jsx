@@ -18,7 +18,8 @@ export default function TabListItem(props) {
                         primary={props.name}
                         primaryTypographyProps={{
                             variant: 'tabListItem',
-                            fontWeight: selected ? '700' : ''
+                            fontWeight: selected ? '700' : '',
+                            color: selected ? 'text.light' : 'text.medium'
                         }}
                     />
                 </styles.StyledListItemButton>

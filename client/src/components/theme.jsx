@@ -18,12 +18,16 @@ export const theme = createTheme({
         greys: {
             light: '#4d4d4d',
             medium: '#444444'
+        },
+        text: {
+            light: '#DDD',
+            medium: '#BBB'
         }
     },
     typography: {
         tabListItem: {
             fontFamily: 'Poppins',
-            fontSize: '1.1em',
+            fontSize: '1.2em',
             fontWeight: '400',
             letterSpacing: '0.015em'
         }
