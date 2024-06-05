@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from '@mui/material/Link';
-import * as styles from '../styled-components/TabListItem.js';
+import * as styles from '../styled-components/TabListItemStyles.js';
 
 export default function TabListItem(props) {
     const selected = window.location.pathname === props.href;
