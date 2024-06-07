@@ -37,6 +37,13 @@ export default function PageLayout() {
             </styles.Sidebar>
             
             <styles.ContentBox open={sidebarOpen}>
+                <styles.SidebarButton
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
+                    sx={{right: mobile && sidebarOpen ? '0' : ''}}
+                    disableTouchRipple
+                >
+                    ☰
+                </styles.SidebarButton>
                 <Box display='flex' flexDirection='column'
                      sx={{display: mobile && sidebarOpen ? 'none' : 'flex'}} 
                 >

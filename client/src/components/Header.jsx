@@ -4,18 +4,11 @@ import AppBar  from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 
-export default function Header({ title, sidebarOpen, setSidebarOpen, mobile }){
+export default function Header({ title }){
     return(
         <AppBar position='sticky'>
             <Toolbar disableGutters>
                 <styles.HeaderLeftBox>
-                    <styles.SidebarButton
-                        onClick={() => setSidebarOpen(!sidebarOpen)}
-                        sx={{right: mobile && sidebarOpen ? '0' : ''}}
-                        disableTouchRipple
-                    >
-                        ☰
-                    </styles.SidebarButton>
                     {title}
                 </styles.HeaderLeftBox>
                 <styles.HeaderRightBox>
