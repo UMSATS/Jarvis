@@ -15,7 +15,7 @@ root.render(
     <Router>
       <Routes>
         <Route element={<PageLayout />}>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/experiments" element={<ExperimentTab />} />
           <Route path="/home" element={<Homepage />} />
           <Route path="/test" element={<TestPage />} />

@@ -2,7 +2,6 @@ import {styled} from '@mui/material/styles';
 import {theme} from '../components/theme.jsx';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
 
 const sidebarWidth = '400px';
 
@@ -15,12 +14,6 @@ export const Sidebar = styled(Drawer)((props) => ({
         backgroundColor: theme.palette.background.sidebar,
         borderRight: 0
     },
-}));
-
-export const SidebarButton = styled(Button)(() => ({
-    position: 'fixed',
-    zIndex: '1200',
-    fontSize: '20px'
 }));
 
 export const ContentBox = styled(Box)((props) => ({
