@@ -17,7 +17,7 @@ root.render(
         <Route element={<PageLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/experiments" element={<ExperimentTab />} />
-          <Route path="/home" element={<Homepage />} />
+          <Route path="/" element={<Homepage />} />
           <Route path="/test" element={<TestPage />} />
         </Route>
       </Routes>

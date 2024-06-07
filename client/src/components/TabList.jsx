@@ -9,7 +9,7 @@ export default function TabList({ setSelectedTabName }) {
         <List disablePadding>
           <TabListItem icon={<DashboardIcon />} name='Dashboard' href='/dashboard' setSelectedTabName={setSelectedTabName}/>
           <TabListItem icon={<ExperimentIcon />} name='Experiment' href='/experiments' setSelectedTabName={setSelectedTabName}/>
-          <TabListItem name='Home Page' href='/home' setSelectedTabName={setSelectedTabName}/>
+          <TabListItem name='Home Page' href='/' setSelectedTabName={setSelectedTabName}/>
           <TabListItem name='Test Page' href='/test' setSelectedTabName={setSelectedTabName}/>
         </List>
     );
