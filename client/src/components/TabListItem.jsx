@@ -1,28 +1,41 @@
 import React from 'react';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Link from '@mui/material/Link';
+import * as styles from '../styled-components/TabListItemStyles.js';
+import { useNavigate } from 'react-router-dom';
 
-export default function TabListItem(props) {
+export default function TabListItem({ href, icon, name, setSelectedTabName }) {
+    const selected = window.location.pathname === href;
+    const navigate = useNavigate();
+
+    const handleClick = (event) => {
+        event.preventDefault();
+        setSelectedTabName(name);
+        navigate(href);
+    };
+
     return (
-        <ListItem>
+        <styles.StyledListItem>
             <Link
-                href={props.href}
+                href={href}
                 underline='none'
                 color='inherit'
                 width='100%'
             >
-                <ListItemButton selected={window.location.pathname === props.href} 
-                                sx={{paddingLeft: '8px', paddingRight: '8px'}}
+                <styles.StyledListItemButton selected={selected} 
+                                             onClick={handleClick}
+                                             disableRipple
                 >
-                    <ListItemIcon>
-                        {props.icon}
-                    </ListItemIcon>
-                    <ListItemText primary={props.name} />
-                </ListItemButton>
+                    {icon}
+                    <styles.StyledListItemText 
+                        primary={name}
+                        primaryTypographyProps={{
+                            variant: 'tabListItem',
+                            fontWeight: selected ? '700' : '',
+                            color: selected ? 'text.light' : 'text.medium'
+                        }}
+                    />
+                </styles.StyledListItemButton>
             </Link>
-        </ListItem>
+        </styles.StyledListItem>
     );
 }
