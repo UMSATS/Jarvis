@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import ExperimentTab from './pages/ExperimentTab';
 import Homepage from './pages/Homepage';
 import TestPage from './pages/TestPage';
+import RegistrationPage from './pages/RegistrationPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,6 +19,7 @@ root.render(
           <Route path="/experiments" element={<ExperimentTab />} />
           <Route path="/home" element={<Homepage />} />
           <Route path="/test" element={<TestPage />} />
+          <Route path="/register" element={<RegistrationPage />} />
         </Route>
       </Routes>
     </Router>
