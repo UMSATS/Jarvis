@@ -3,7 +3,7 @@ Implements a sidebar and its toggle button into the flow of the website.
 Wraps the routes in index.js directly, making each page simpler to implement.
 */
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Outlet  } from "react-router-dom";
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './theme.jsx';
@@ -14,6 +14,15 @@ import Box from '@mui/material/Box';
 import TabList from './TabList.jsx';
 import bannerImage from '../assets/jarvis_banner.png';
 import Header from './Header.jsx';
+
+export const LayoutContext = React.createContext(undefined);
+export function useLayoutContext() {
+    const context = useContext(LayoutContext);
+    if (context === undefined) {
+        throw new Error("useLayoutContext is missing a provider or values");
+    }
+    return context;
+}
 
 export default function PageLayout() {
     const mobile = useMediaQuery(theme.breakpoints.down('mobile'));
@@ -37,7 +46,9 @@ export default function PageLayout() {
                 <Box display='flex' flexDirection='column'>
                     <img src={bannerImage} alt='banner'
                          style={{margin: '12px', borderRadius: '8px'}}/>
-                    <TabList setSelectedTabName={setSelectedTabName} setSidebarOpen={setSidebarOpen}/>
+                    <LayoutContext.Provider value={{setSelectedTabName, setSidebarOpen, mobile}}>
+                        <TabList />
+                    </LayoutContext.Provider>
                 </Box>
             </styles.Sidebar>
             

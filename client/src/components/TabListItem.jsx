@@ -1,17 +1,19 @@
 import React from 'react';
 import Link from '@mui/material/Link';
 import * as styles from '../styled-components/TabListItemStyles.js';
+import { useLayoutContext } from './PageLayout.jsx';
 import { useNavigate } from 'react-router-dom';
 
-export default function TabListItem({ href, icon, name, setSelectedTabName, setSidebarOpen }) {
+export default function TabListItem({ href, icon, name }) {
     const selected = window.location.pathname === href;
     const navigate = useNavigate();
+    const Context = useLayoutContext();
 
     const handleClick = (event) => {
         event.preventDefault();
-        setSelectedTabName(name);
+        Context.setSelectedTabName(name);
         navigate(href);
-        setSidebarOpen(false);
+        if (Context.mobile) {Context.setSidebarOpen(false)};
     };
 
     return (
