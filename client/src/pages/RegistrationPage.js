@@ -7,107 +7,97 @@ Account registration page component
 
 @created data: June 03, 2024
 */
-import React, { useState } from 'react';
+import React from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Avatar from '@mui/material/Avatar';
+import CssBaseline from '@mui/material/CssBaseline';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Container from '@mui/material/Container';
 
-class RegistrationPage extends React.Component {
-    registerHandler = () => {
-        const [firstName, setFirstName] = useState('');
-        const [lastName, setLastName] = useState('');
-        const [email, setEmail] = useState('');
-        const [password, setPassword] = useState('');
-    }
 
-    render() {
-        return (
-            <div>
-                <Box
-                    sx={{
-                        marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}
-                    component="form"
-                    noValidate
-                    onSubmit={this.registerHandler}
-                    maxWidth="xs"
-                >
-                    <Typography component="h1" variant="h5">Sign up</Typography>
-                    <div style={{ display: 'flex', marginTop: '1rem'}} >
-                        <FormControl>
-                            <TextField
-                                required
-                                id="firstName"
-                                label="First Name"
-                                variant="outlined"
-                            />
-                        </FormControl>
-                        <FormControl>
-                            <TextField
-                                required
-                                id="lastName"
-                                label="Last Name"
-                                variant="outlined"
-                            />
-                        </FormControl>
-                    </div>
-                    <div style={{ display: 'flex', marginTop: '1rem'}}>
-                        <FormControl>
-                            <TextField
-                                required
-                                id="email"
-                                label="Email"
-                                variant="outlined"
-                                fullWidth
-                            />
-                        </FormControl>
-                    </div>
-                    <div style={{ display: 'flex', marginTop: '1rem'}}>
-                        <FormControl>
-                            <TextField
-                                required
-                                id="password"
-                                label="Password"
-                                variant="outlined"
-                                fullWidth
-                            />
-                        </FormControl>
-                    </div>
-                    <div style={{ display: 'flex', marginTop: '1rem'}}>
-                        <FormControl>
-                            <TextField
-                                required
-                                id="confirm_password"
-                                label="Confirm Password"
-                                variant="outlined"
-                                fullWidth
-                            />
-                        </FormControl>
-                    </div>
-                    <Button type='submit'
-                        variant="contained"
-                        color="primary"
-                        style={{ marginTop: '1rem' }}
-                    >
-                        Sign Up
-                    </Button>
-                    <div style={{ display: 'flex', marginTop: '1rem'}}>
-                        <Link 
-                        href="/" variant="body2" 
-                        >
-                            Already have an account? Sign in
-                        </Link>
-                    </div>
+function RegistrationPage() {
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        console.log({
+          email: data.get('email'),
+          password: data.get('password'),
+        });
+      };
+
+    return (
+            <Container component="main" maxWidth="xs">
+              <CssBaseline />
+              <Box
+                sx={{
+                  marginTop: 8,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  Sign in
+                </Typography>
+                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Sign In
+                  </Button>
+                  <Grid container>
+                    <Grid item xs>
+                      <Link href="#" variant="body2">
+                        Forgot password?
+                      </Link>
+                    </Grid>
+                    <Grid item>
+                      <Link href="#" variant="body2">
+                        {"Don't have an account? Sign Up"}
+                      </Link>
+                    </Grid>
+                  </Grid>
                 </Box>
-            </div>
-        );
-    }
+              </Box>
+              <Box mt={8}>
+				<Typography variant="body2" color="text.secondary" align="center">
+				    {'Copyright © UMSATS '}{new Date().getFullYear()}{'.'}
+				</Typography>
+			  </Box>
+            </Container>
+    );
+    
 }
 
 export default RegistrationPage;
