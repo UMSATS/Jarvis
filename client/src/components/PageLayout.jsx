@@ -53,18 +53,10 @@ export default function PageLayout() {
             </styles.Sidebar>
             
             <styles.ContentBox open={sidebarOpen} mobile={mobile}>
-                <styles.SidebarButton
-                    onClick={() => setSidebarOpen(!sidebarOpen)}
-                    disableTouchRipple
-                >
-                    ☰
-                </styles.SidebarButton>
                 <Box display='flex' flexDirection='column'>
-                    <Header title={selectedTabName}
-                            sidebarOpen={sidebarOpen}
-                            setSidebarOpen={setSidebarOpen}
-                            mobile={mobile}
-                    />
+                    <LayoutContext.Provider value={{selectedTabName, sidebarOpen, setSidebarOpen}}>
+                        <Header/>
+                    </LayoutContext.Provider>
                     <styles.PageContent mobile={mobile}>
                         <Outlet/>
                     </styles.PageContent>
