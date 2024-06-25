@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './index.css';
+import '@fontsource/poppins/400.css';
 import PageLayout from './components/PageLayout';
 import Dashboard from './pages/Dashboard';
 import ExperimentTab from './pages/ExperimentTab';
@@ -15,9 +16,9 @@ root.render(
     <Router>
       <Routes>
         <Route element={<PageLayout />}>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/experiments" element={<ExperimentTab />} />
-          <Route path="/home" element={<Homepage />} />
+          <Route path="/" element={<Homepage />} />
           <Route path="/test" element={<TestPage />} />
           <Route path="/register" element={<RegistrationPage />} />
         </Route>

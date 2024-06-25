@@ -3,65 +3,61 @@ Implements a sidebar and its toggle button into the flow of the website.
 Wraps the routes in index.js directly, making each page simpler to implement.
 */
 
-import './PageLayout.css';
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet  } from "react-router-dom";
-import { useTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from './theme.jsx';
+import * as styles from '../styled-components/PageLayoutStyles.js';
+import CssBaseline from '@mui/material/CssBaseline';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
 import TabList from './TabList.jsx';
-import banner from '../assets/jarvis_banner.png';
+import bannerImage from '../assets/jarvis_banner.png';
+import Header from './Header.jsx';
 
 export default function PageLayout() {
-    const mobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+    const mobile = useMediaQuery(theme.breakpoints.down('mobile'));
     const [sidebarOpen, setSidebarOpen] = React.useState(!mobile);
-
-    function mobileResponsive(className) {
-        return mobile ? className + ' mobile' : className;
-    }
+    const [selectedTabName, setSelectedTabName] = useState('UMSATS');
 
     return (
+        <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Box>
-            <Drawer
-                className={mobileResponsive('sidebar')}
+            <styles.Sidebar
                 open={sidebarOpen}
+                mobile={mobile}
                 variant='persistent'
             >
                 <Box display='flex' flexDirection='column'>
-                    <img src={banner} alt='banner' className='sidebar-banner-image'/>
-                    <TabList />
+                    <img src={bannerImage} alt='banner'
+                         style={{margin: '12px', borderRadius: '8px'}}/>
+                    <TabList setSelectedTabName={setSelectedTabName}/>
                 </Box>
-            </Drawer>
+            </styles.Sidebar>
             
-            <Box className={'content-transition' + (sidebarOpen ? ' open' : ' closed')}>
-                <Button 
+            <styles.ContentBox open={sidebarOpen}>
+                <styles.SidebarButton
                     onClick={() => setSidebarOpen(!sidebarOpen)}
-                    // Replacing this with a css class changes some Material styling
-                    // and also stops it from being in a fixed position
-                    sx={{
-                        position: 'fixed',
-                        zIndex: '1200',
-                        right: mobile && sidebarOpen ? '0' : '',
-                        fontSize: '20px',
-                    }}
+                    sx={{right: mobile && sidebarOpen ? '0' : ''}}
+                    disableTouchRipple
                 >
                     ☰
-                </Button>
-                
+                </styles.SidebarButton>
                 <Box display='flex' flexDirection='column'
-                    // Without disabling the content, when the sidebar is open on mobile,
-                    // it has a pseudo min-width of about 440px for some reason. Also,
-                    // scrolling the page is possible while the sidebar is open.
-                    sx={{display: mobile && sidebarOpen ? 'none' : 'flex'}} 
+                     sx={{display: mobile && sidebarOpen ? 'none' : 'flex'}} 
                 >
-                    <Box className={mobileResponsive('header')} />
-                    <Box className={mobileResponsive('content')}>
-                        <Outlet/> {/* For the scrolling issue, maybe something like style={{mobile && sidebarOpen ? overflow-y = 'disable'}}} */}
-                    </Box>
+                    <Header title={selectedTabName}
+                            sidebarOpen={sidebarOpen}
+                            setSidebarOpen={setSidebarOpen}
+                            mobile={mobile}
+                    />
+                    <styles.PageContent mobile={mobile}>
+                        <Outlet/>
+                    </styles.PageContent>
                 </Box>
-            </Box>
+            </styles.ContentBox>
         </Box>
+        </ThemeProvider>
     );
 }
