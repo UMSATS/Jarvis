@@ -7,35 +7,43 @@ Account registration page component
 
 @created data: June 03, 2024
 */
-import React from 'react';
+import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
 
-class RegistrationPage extends React.Component {    
+class RegistrationPage extends React.Component {
+    registerHandler = () => {
+        const [firstName, setFirstName] = useState('');
+        const [lastName, setLastName] = useState('');
+        const [email, setEmail] = useState('');
+        const [password, setPassword] = useState('');
+    }
+
     render() {
-        const registerHandler = () => {
-            console.log('Registering user...');
-        }
         return (
             <div>
                 <Box
-                    component="form"
                     sx={{
-                        '& .MuiTextField-root': { m: 1, width: '25ch' },
-                        justifyContent: 'center',
-                        alignItems: 'center'
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
                     }}
+                    component="form"
                     noValidate
-                    autoComplete="off"
+                    onSubmit={this.registerHandler}
+                    maxWidth="xs"
                 >
-                    <div style={{ display: 'flex'}}>
+                    <Typography component="h1" variant="h5">Sign up</Typography>
+                    <div style={{ display: 'flex', marginTop: '1rem'}} >
                         <FormControl>
                             <TextField
                                 required
-                                id="outlined-required"
+                                id="firstName"
                                 label="First Name"
                                 variant="outlined"
                             />
@@ -43,66 +51,59 @@ class RegistrationPage extends React.Component {
                         <FormControl>
                             <TextField
                                 required
-                                id="outlined-required"
+                                id="lastName"
                                 label="Last Name"
                                 variant="outlined"
                             />
                         </FormControl>
                     </div>
-                    <div style={{ display: 'flex'}}>
+                    <div style={{ display: 'flex', marginTop: '1rem'}}>
                         <FormControl>
-                            <FormHelperText>Enter a valid email address with domain @umsats.ca</FormHelperText>
                             <TextField
                                 required
-                                id="outlined-required"
+                                id="email"
                                 label="Email"
                                 variant="outlined"
+                                fullWidth
                             />
                         </FormControl>
                     </div>
-                    <div style={{ display: 'flex'}}>
+                    <div style={{ display: 'flex', marginTop: '1rem'}}>
                         <FormControl>
-                            <FormHelperText>Enter a valid UMSATS username</FormHelperText>
                             <TextField
                                 required
-                                id="outlined-required"
-                                label="Username"
-                                variant="outlined"
-                            />
-                        </FormControl>
-                    </div>
-                    <div style={{ display: 'flex'}}>
-                        <FormControl>
-                            <FormHelperText>Enter a password with at least 8 characters</FormHelperText>
-                            <TextField
-                                required
-                                id="outlined-required"
+                                id="password"
                                 label="Password"
                                 variant="outlined"
+                                fullWidth
                             />
                         </FormControl>
                     </div>
-                    <div style={{ display: 'flex'}}>
+                    <div style={{ display: 'flex', marginTop: '1rem'}}>
                         <FormControl>
                             <TextField
                                 required
-                                id="outlined-required"
+                                id="confirm_password"
                                 label="Confirm Password"
                                 variant="outlined"
+                                fullWidth
                             />
                         </FormControl>
                     </div>
-                </Box>
-                
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100vh'
-                    }}
-                >
-                    <Button variant="contained">Register</Button>
+                    <Button type='submit'
+                        variant="contained"
+                        color="primary"
+                        style={{ marginTop: '1rem' }}
+                    >
+                        Sign Up
+                    </Button>
+                    <div style={{ display: 'flex', marginTop: '1rem'}}>
+                        <Link 
+                        href="/" variant="body2" 
+                        >
+                            Already have an account? Sign in
+                        </Link>
+                    </div>
                 </Box>
             </div>
         );
