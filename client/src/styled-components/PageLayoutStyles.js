@@ -12,7 +12,7 @@ export const Sidebar = styled(Drawer)((props) => ({
         width: props.mobile ? sidebarWidthMobile : sidebarWidth
     },
     '.MuiPaper-root': {
-        backgroundColor: theme.palette.background.sidebar,
+        backgroundColor: !props.mobile ? theme.palette.background.sidebar : '',
         borderRight: 0
     },
 }));
