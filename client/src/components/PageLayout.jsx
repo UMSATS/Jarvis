@@ -20,33 +20,35 @@ export default function PageLayout() {
     const [sidebarOpen, setSidebarOpen] = React.useState(!mobile);
     const [selectedTabName, setSelectedTabName] = useState('UMSATS');
 
+    const toggleSidebar = (newOpen) => () => {
+        setSidebarOpen(newOpen);
+    }
+
     return (
         <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Box>
+        <Box display='inline'>
             <styles.Sidebar
                 open={sidebarOpen}
                 mobile={mobile}
-                variant='persistent'
+                variant={mobile ? 'temporary' : 'persistent'}
+                onClose={toggleSidebar(false)}
             >
                 <Box display='flex' flexDirection='column'>
                     <img src={bannerImage} alt='banner'
                          style={{margin: '12px', borderRadius: '8px'}}/>
-                    <TabList setSelectedTabName={setSelectedTabName}/>
+                    <TabList setSelectedTabName={setSelectedTabName} setSidebarOpen={setSidebarOpen}/>
                 </Box>
             </styles.Sidebar>
             
-            <styles.ContentBox open={sidebarOpen}>
+            <styles.ContentBox open={sidebarOpen} mobile={mobile}>
                 <styles.SidebarButton
                     onClick={() => setSidebarOpen(!sidebarOpen)}
-                    sx={{right: mobile && sidebarOpen ? '0' : ''}}
                     disableTouchRipple
                 >
                     ☰
                 </styles.SidebarButton>
-                <Box display='flex' flexDirection='column'
-                     sx={{display: mobile && sidebarOpen ? 'none' : 'flex'}} 
-                >
+                <Box display='flex' flexDirection='column'>
                     <Header title={selectedTabName}
                             sidebarOpen={sidebarOpen}
                             setSidebarOpen={setSidebarOpen}

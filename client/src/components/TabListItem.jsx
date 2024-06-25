@@ -3,7 +3,7 @@ import Link from '@mui/material/Link';
 import * as styles from '../styled-components/TabListItemStyles.js';
 import { useNavigate } from 'react-router-dom';
 
-export default function TabListItem({ href, icon, name, setSelectedTabName }) {
+export default function TabListItem({ href, icon, name, setSelectedTabName, setSidebarOpen }) {
     const selected = window.location.pathname === href;
     const navigate = useNavigate();
 
@@ -11,6 +11,7 @@ export default function TabListItem({ href, icon, name, setSelectedTabName }) {
         event.preventDefault();
         setSelectedTabName(name);
         navigate(href);
+        setSidebarOpen(false);
     };
 
     return (

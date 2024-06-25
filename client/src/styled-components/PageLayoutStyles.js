@@ -5,11 +5,12 @@ import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 
 const sidebarWidth = '400px';
+const sidebarWidthMobile = '75vw';
 
 export const Sidebar = styled(Drawer)((props) => ({
-    width: props.mobile ? '100%' : sidebarWidth,
+    width: props.mobile ? sidebarWidthMobile : sidebarWidth,
     '.MuiDrawer-paper': {
-        width: props.mobile ? '100%' : sidebarWidth
+        width: props.mobile ? sidebarWidthMobile : sidebarWidth
     },
     '.MuiPaper-root': {
         backgroundColor: theme.palette.background.sidebar,
@@ -29,7 +30,7 @@ export const SidebarButton = styled(Button)(() => ({
 
 export const ContentBox = styled(Box)((props) => ({
     transition: 'margin-left 225ms cubic-bezier(0, 0, 0.2, 1)',
-    marginLeft: props.open ? sidebarWidth : '0px'
+    marginLeft: props.open && !props.mobile ? sidebarWidth : '0'
 }));
 
 export const PageContent = styled(Box)((props) => ({
