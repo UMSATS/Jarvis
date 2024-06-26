@@ -8,11 +8,11 @@ Account registration page component, baseed on the Material-UI example at https:
 @created data: June 03, 2024
 */
 import React from 'react';
-import { TextField, Button, Box, Typography, Grid, Avatar, CssBaseline, Container,  }from '@mui/material';
+import { TextField, Button, Box, Typography, Grid, Avatar, CssBaseline, Container, Link }from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../components/theme.jsx';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 function RegistrationPage() {
