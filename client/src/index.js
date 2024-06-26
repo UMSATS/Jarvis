@@ -21,9 +21,9 @@ root.render(
           <Route path="/experiments" element={<ExperimentTab />} />
           <Route path="/" element={<Homepage />} />
           <Route path="/test" element={<TestPage />} />
-          <Route path="/signup" element={<RegistrationPage />} />
         </Route>
 		<Route path="/login" element={<LoginPage />} />
+    <Route path="/signup" element={<RegistrationPage />} />
       </Routes>
     </Router>
   </React.StrictMode>
