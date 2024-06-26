@@ -15,7 +15,7 @@ import TabList from './TabList.jsx';
 import bannerImage from '../assets/jarvis_banner.png';
 import Header from './Header.jsx';
 
-export const LayoutContext = React.createContext(undefined);
+const LayoutContext = React.createContext(undefined);
 export function useLayoutContext() {
     const context = useContext(LayoutContext);
     if (context === undefined) {
@@ -29,19 +29,15 @@ export default function PageLayout() {
     const [sidebarOpen, setSidebarOpen] = React.useState(!mobile);
     const [selectedTabName, setSelectedTabName] = useState('UMSATS');
 
-    const toggleSidebar = (newOpen) => () => {
-        setSidebarOpen(newOpen);
-    }
-
     return (
         <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Box display='inline'>
+        <Box>
             <styles.Sidebar
                 open={sidebarOpen}
                 mobile={mobile}
                 variant={mobile ? 'temporary' : 'persistent'}
-                onClose={toggleSidebar(false)}
+                onClose={() => {setSidebarOpen(false)}}
             >
                 <Box display='flex' flexDirection='column'>
                     <img src={bannerImage} alt='banner'
