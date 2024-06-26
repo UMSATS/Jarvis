@@ -114,7 +114,7 @@ function RegistrationPage() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Create Account
             </Button>
             <Grid container justifyContent="flex-end">
             </Grid>
