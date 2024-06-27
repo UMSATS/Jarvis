@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import ExperimentTab from './pages/ExperimentTab';
 import Homepage from './pages/Homepage';
 import TestPage from './pages/TestPage';
+import LoginPage from "./pages/LoginPage";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,6 +21,7 @@ root.render(
           <Route path="/" element={<Homepage />} />
           <Route path="/test" element={<TestPage />} />
         </Route>
+		<Route path="/login" element={<LoginPage />} />
       </Routes>
     </Router>
   </React.StrictMode>
