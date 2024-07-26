@@ -1,12 +1,17 @@
 import React from 'react';
 import TemperatureChart from '../components/TemperatureChart.jsx';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
-class ExperimentTab extends React.Component {
-  render() {
-    return (
-      <TemperatureChart />
-    )
-  }
-}
+export default function ExperimentTab() {
+  const [showInactiveWells, setShowInactiveWells] = React.useState(true);
 
-export default ExperimentTab;
+  return (
+    <Box>
+      <TemperatureChart showInactiveWells={showInactiveWells}/>
+      <Button onClick={() => setShowInactiveWells(!showInactiveWells)}>
+        {showInactiveWells ? 'Hide inactive wells' : 'Show inactive wells'}
+      </Button>
+    </Box>
+  )
+};
