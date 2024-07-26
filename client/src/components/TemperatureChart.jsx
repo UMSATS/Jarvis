@@ -6,26 +6,16 @@ const temperatures = {
     well02: [true, 3, 2, 2, 1, 1, 2],
     well03: [false, 1, 3, 2, 1, 2, 2],
     well04: [true, 4, 2, 2, 1, 1, 3]
-}
+};
 
 const timestamps = [
-    {timestamp: 1},
-    {timestamp: 2},
-    {timestamp: 3},
-    {timestamp: 4},
-    {timestamp: 5},
-    {timestamp: 6}
+    { timestamp: 1 },
+    { timestamp: 2 },
+    { timestamp: 3 },
+    { timestamp: 4 },
+    { timestamp: 5 },
+    { timestamp: 6 }
 ];
-
-const indexedDataset = timestamps.map(item => {
-    return {
-        ...item,
-        well01: temperatures.well01[item.timestamp],
-        well02: temperatures.well02[item.timestamp],
-        well03: temperatures.well03[item.timestamp],
-        well04: temperatures.well04[item.timestamp]
-    }
-});
 
 const labels = {
     well01: 'Well 01',
@@ -39,35 +29,61 @@ const colors = {
     well02: '#991DE0',
     well03: '#E0691D',
     well04: '#BDE01D',
-}
+};
 
 const graphProperties = {
     legend: { hidden: true },
     skipAnimation: true,
     width: 500,
     height: 300
-}
+};
 
-export default function TemperatureChart({ showInactiveWells }) {
-    const filteredDataset = Object.keys(labels).filter((key) => {
-        const wellArr = temperatures[key];
-        return wellArr && wellArr[0];
-    });
+const MAX_DOMAIN = 6;
+
+export default function TemperatureChart({ showInactiveWells, domain }) {
+    // Lines to chart
+    const series = Object.keys(labels)
+        // Filter out inactive wells if needed
+        .filter(key => showInactiveWells || temperatures[key][0])
+        // Use keys from labels to assign properties
+        .map(key => ({
+            dataKey: key,
+            label: labels[key],
+            color: colors[key],
+            valueFormatter: value => value.toString() + '°',
+            curve: 'linear'
+        }));
     
-    const datasetKeys = showInactiveWells ? Object.keys(labels) : filteredDataset;
-    
-    const series = datasetKeys.map((key) => ({
-        dataKey: key,
-        label: labels[key],
-        color: colors[key],
-        valueFormatter: (value) => value.toString() + '°',
-        curve: 'linear'
-    }));
+    const filteredDataset = timestamps
+        // Filter out data with timestamps outside the domain
+        .filter((item, index) => index >= MAX_DOMAIN - domain)
+        // Index the data using timestamps
+        .map(item => {
+            const filteredItem = { timestamp: item.timestamp };
+            series.forEach(({ dataKey }) => {
+                filteredItem[dataKey] = temperatures[dataKey][item.timestamp];
+            });
+            return filteredItem;
+        });
 
     return (
         <LineChart
-            dataset={indexedDataset}
+            dataset={filteredDataset}
             series={series}
+            xAxis={[
+                {
+                    dataKey: 'timestamp',
+                    valueFormatter: (value) => value.toString(),
+                    tickNumber: domain,
+                    tickMinStep: 1
+                },
+            ]}
+            yAxis={[
+                {
+                    valueFormatter: (value) => value.toString(),
+                    tickMinStep: 1
+                }
+            ]}
             {...graphProperties}
         />
     );
