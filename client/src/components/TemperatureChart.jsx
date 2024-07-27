@@ -27,11 +27,12 @@ const labels = {
 const colors = {
     well01: '#1DDAE0',
     well02: '#991DE0',
-    well03: '#E0691D',
-    well04: '#BDE01D',
+    well03: '#ED698D',
+    well04: '#BDED1D',
 };
 
 const graphProperties = {
+    grid: { horizontal: true },
     legend: { hidden: true },
     skipAnimation: true,
     width: 500,
@@ -49,7 +50,7 @@ export default function TemperatureChart({ showInactiveWells, domain }) {
         .map(key => ({
             dataKey: key,
             label: labels[key],
-            color: colors[key],
+            color: colors[key] + 'C0',
             valueFormatter: value => value.toString() + '°',
             curve: 'linear'
         }));
@@ -81,6 +82,8 @@ export default function TemperatureChart({ showInactiveWells, domain }) {
             yAxis={[
                 {
                     valueFormatter: (value) => value.toString(),
+                    min: 0,
+                    max: 5,
                     tickMinStep: 1
                 }
             ]}
