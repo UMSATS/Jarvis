@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 import { RectRadioButton } from '../styled-components/ButtonStyles.js';
 
 export default function ExperimentTab() {
@@ -20,9 +22,15 @@ export default function ExperimentTab() {
     <Box>
       <TemperatureChart showInactiveWells={showInactiveWells} domain={domain} />
       
-      <Button onClick={() => setShowInactiveWells(!showInactiveWells)}>
-        {showInactiveWells ? 'Hide inactive wells' : 'Show inactive wells'}
-      </Button>
+      <FormControlLabel
+        control={
+          <Switch
+            checked={showInactiveWells}
+            onChange={() => setShowInactiveWells(!showInactiveWells)}
+          />
+        }
+        label="Show Inactive Wells"
+      />
 
       <FormControl>
         <RadioGroup
