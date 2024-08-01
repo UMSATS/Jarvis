@@ -1,5 +1,5 @@
 import React from 'react';
-import TemperatureChart from '../components/TemperatureChart.jsx';
+import TemperatureChart from '../components/ExperimentChart.jsx';
 import Box from '@mui/material/Box';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
