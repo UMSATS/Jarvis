@@ -38,6 +38,7 @@ export default function ExperimentTab() {
             labels={temperature.labels}
             colors={temperature.colors}
             unitFormat='°'
+            title='Temperature'
             {...chartProperties}
           />
         </Box>
@@ -48,6 +49,7 @@ export default function ExperimentTab() {
             labels={luminosity.labels}
             colors={luminosity.colors}
             unitFormat=' lm'
+            title='Luminosity'
             {...chartProperties}
           />
         </Box>
