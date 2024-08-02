@@ -9,8 +9,6 @@ export default function TabList() {
         <List disablePadding>
           <TabListItem icon={<DashboardIcon />} name='Dashboard' href='/dashboard'/>
           <TabListItem icon={<ExperimentIcon />} name='Experiment' href='/experiments'/>
-          <TabListItem name='Home Page' href='/'/>
-          <TabListItem name='Test Page' href='/test'/>
         </List>
     );
 }

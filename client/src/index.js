@@ -6,8 +6,6 @@ import '@fontsource/poppins/400.css';
 import PageLayout from './components/PageLayout';
 import Dashboard from './pages/Dashboard';
 import ExperimentTab from './pages/ExperimentTab';
-import Homepage from './pages/Homepage';
-import TestPage from './pages/TestPage';
 import RegistrationPage from './pages/RegistrationPage';
 import LoginPage from "./pages/LoginPage";
 
@@ -19,8 +17,6 @@ root.render(
         <Route element={<PageLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/experiments" element={<ExperimentTab />} />
-          <Route path="/" element={<Homepage />} />
-          <Route path="/test" element={<TestPage />} />
         </Route>
 		<Route path="/login" element={<LoginPage />} />
     <Route path="/signup" element={<RegistrationPage />} />
