@@ -9,10 +9,9 @@ export const StyledListItem = styled(ListItem)(() => ({
 }));
 
 export const StyledListItemButton = styled(ListItemButton)(() => ({
-    paddingLeft: '0',
-    paddingRight: '8px',
-    borderRadius: '8px',
-    height: '60px',
+    padding: '10px 18px',
+    borderRadius: '15px',
+    height: 'auto',
     '&.Mui-selected': {
         backgroundColor: theme.palette.greys.light,
         ':hover': {
@@ -22,5 +21,5 @@ export const StyledListItemButton = styled(ListItemButton)(() => ({
 }));
 
 export const StyledListItemText = styled(ListItemText)(() => ({
-    marginLeft: '8px',
+    marginLeft: '24px'
 }));
