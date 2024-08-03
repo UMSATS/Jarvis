@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import './index.css';
 import '@fontsource/poppins/400.css';
 import '@fontsource/poppins/500.css';
@@ -21,6 +21,7 @@ root.render(
     <Router>
       <Routes>
         <Route element={<PageLayout />}>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/experiment" element={<ExperimentTab />} />
           <Route path="/event-log" element={<EventLogTab />} />
