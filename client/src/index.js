@@ -7,6 +7,10 @@ import '@fontsource/poppins/500.css';
 import PageLayout from './components/PageLayout';
 import Dashboard from './pages/Dashboard';
 import ExperimentTab from './pages/ExperimentTab';
+import EventLogTab from './pages/EventLogTab';
+import BatteryTab from './pages/BatteryTab';
+import TemperaturesTab from './pages/TemperaturesTab';
+import OrientationTab from './pages/OrientationTab';
 import RegistrationPage from './pages/RegistrationPage';
 import LoginPage from "./pages/LoginPage";
 
@@ -18,6 +22,10 @@ root.render(
         <Route element={<PageLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/experiment" element={<ExperimentTab />} />
+          <Route path="/event-log" element={<EventLogTab />} />
+          <Route path="/temperatures" element={<TemperaturesTab />} />
+          <Route path="/battery" element={<BatteryTab />} />
+          <Route path="/orientation" element={<OrientationTab />} />
         </Route>
 		<Route path="/login" element={<LoginPage />} />
     <Route path="/signup" element={<RegistrationPage />} />
