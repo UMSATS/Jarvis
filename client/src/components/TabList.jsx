@@ -8,15 +8,20 @@ import { ReactComponent as OrientationIcon } from '../assets/images/icons/grey/o
 import { ReactComponent as BatteryIcon } from '../assets/images/icons/grey/battery.svg';
 import { ReactComponent as TemperaturesIcon } from '../assets/images/icons/grey/temperatures.svg';
 
+const iconProps = {
+    width: '42px',
+    height: '42px'
+}
+
 export default function TabList() {
     return (
         <List disablePadding>
-          <TabListItem icon={<DashboardIcon style={{ width: '42px', height: '42px'}} />} name='Dashboard' href='/dashboard'/>
-		  <TabListItem icon={<EventLogIcon style={{ width: '42px', height: '42px'}} />} name='Event Log' href='/event-log'/>
-		  <TabListItem icon={<TemperaturesIcon style={{ width: '42px', height: '42px'}} />} name='Temperatures' href='/temperatures'/>
-		  <TabListItem icon={<BatteryIcon style={{ width: '42px', height: '42px'}} />} name='Battery' href='/battery'/>
-		  <TabListItem icon={<ExperimentIcon style={{ width: '42px', height: '42px'}} />} name='Experiment' href='/experiment'/>
-		  <TabListItem icon={<OrientationIcon style={{ width: '42px', height: '42px'}} />} name='Orientation' href='/orientation'/>
+          <TabListItem icon={<DashboardIcon {...iconProps} />} name='Dashboard' href='/dashboard'/>
+		  <TabListItem icon={<EventLogIcon {...iconProps} />} name='Event Log' href='/event-log'/>
+		  <TabListItem icon={<TemperaturesIcon {...iconProps} />} name='Temperatures' href='/temperatures'/>
+		  <TabListItem icon={<BatteryIcon {...iconProps} />} name='Battery' href='/battery'/>
+		  <TabListItem icon={<ExperimentIcon {...iconProps} />} name='Experiment' href='/experiment'/>
+		  <TabListItem icon={<OrientationIcon {...iconProps} />} name='Orientation' href='/orientation'/>
         </List>
     );
 }
