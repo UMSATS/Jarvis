@@ -19,6 +19,9 @@ export const theme = createTheme({
             light: '#4d4d4d',
             medium: '#444444'
         },
+        purples: {
+            medium: '#9b73f9'
+        },
         text: {
             light: '#DDD',
             medium: '#BBB'
@@ -26,9 +29,6 @@ export const theme = createTheme({
     },
     typography: {
 		fontFamily: 'Poppins',
-        tabListItem: {
-            fontSize: '1.2em'
-        }
     },
     breakpoints: {
         values: {

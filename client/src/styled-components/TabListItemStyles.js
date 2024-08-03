@@ -20,6 +20,11 @@ export const StyledListItemButton = styled(ListItemButton)(() => ({
     }
 }));
 
-export const StyledListItemText = styled(ListItemText)(() => ({
-    marginLeft: '24px'
+export const StyledListItemText = styled(ListItemText)((props) => ({
+    marginLeft: '24px',
+    fontSize: '1.2em',
+    '.MuiTypography-root': {
+        fontWeight: props.selected ? '600' : '500',
+    },
+    color: props.selected ? theme.palette.purples.medium : theme.palette.text.medium
 }));

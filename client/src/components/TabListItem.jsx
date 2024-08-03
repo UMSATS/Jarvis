@@ -4,7 +4,7 @@ import * as styles from '../styled-components/TabListItemStyles.js';
 import { useLayoutContext } from './PageLayout.jsx';
 import { useNavigate } from 'react-router-dom';
 
-export default function TabListItem({ href, icon, name }) {
+export default function TabListItem({ href, iconUnselected, iconSelected, name }) {
     const selected = window.location.pathname === href;
     const navigate = useNavigate();
     const Context = useLayoutContext();
@@ -28,13 +28,12 @@ export default function TabListItem({ href, icon, name }) {
                                              onClick={handleClick}
                                              disableRipple
                 >
-                    {icon}
+                    {selected ? iconSelected : iconUnselected}
                     <styles.StyledListItemText 
                         primary={name}
+                        selected={selected}
                         primaryTypographyProps={{
-                            variant: 'tabListItem',
-                            fontWeight: selected ? '700' : '500',
-                            color: selected ? 'text.light' : 'text.medium'
+                            variant: 'inherit'
                         }}
                     />
                 </styles.StyledListItemButton>
