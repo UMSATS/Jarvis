@@ -31,10 +31,9 @@ export default function TabListItem({ href, iconUnselected, iconSelected, name }
                     {selected ? iconSelected : iconUnselected}
                     <styles.StyledListItemText 
                         primary={name}
+                        selected={selected}
                         primaryTypographyProps={{
-                            variant: 'tabListItem',
-                            fontWeight: selected ? '700' : '500',
-                            color: selected ? 'text.light' : 'text.medium'
+                            variant: 'inherit'
                         }}
                     />
                 </styles.StyledListItemButton>
