@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './index.css';
 import '@fontsource/poppins/400.css';
 import '@fontsource/poppins/500.css';
+import '@fontsource/poppins/600.css';
 import PageLayout from './components/PageLayout';
 import Dashboard from './pages/Dashboard';
 import ExperimentTab from './pages/ExperimentTab';
