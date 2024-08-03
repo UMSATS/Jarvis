@@ -25,11 +25,9 @@ export const theme = createTheme({
         }
     },
     typography: {
+		fontFamily: 'Poppins',
         tabListItem: {
-            fontFamily: 'Poppins',
-            fontSize: '1.2em',
-            fontWeight: '400',
-            letterSpacing: '0.015em'
+            fontSize: '1.2em'
         }
     },
     breakpoints: {

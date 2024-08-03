@@ -1,0 +1,10 @@
+<svg width="64" height="64" version="1.1" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <g fill="#b2b2b2" stroke="#b2b2b2" stroke-width="11.5">
+  <path d="m32 38.852-0.08174-20.893"/>
+  <path d="m32 38.852 17.967 10.42"/>
+  <path d="m32 38.852-17.967 10.42"/>
+ </g>
+ <path id="path18" transform="matrix(1.1354 0 0 1.1354 12.262 41.447)" d="m6.4903 15.512h-9.8597a5.7735 5.7735 60 0 1-5-8.6603l4.9298-8.5387a5.7735 5.7735 2.522e-7 0 1 10 1e-7l4.9298 8.5387a5.7735 5.7735 120 0 1-5 8.6603z" fill="#b2b2b2" stroke-width="9.6886"/>
+ <use transform="translate(35.933)" stroke-width=".82869" xlink:href="#path18"/>
+ <use transform="translate(17.885 -31.312)" stroke-width=".82869" xlink:href="#path18"/>
+</svg>

@@ -33,7 +33,7 @@ export default function TabListItem({ href, icon, name }) {
                         primary={name}
                         primaryTypographyProps={{
                             variant: 'tabListItem',
-                            fontWeight: selected ? '700' : '',
+                            fontWeight: selected ? '700' : '500',
                             color: selected ? 'text.light' : 'text.medium'
                         }}
                     />
