@@ -12,7 +12,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
 import TabList from './TabList.jsx';
-import bannerImage from '../assets/jarvis_banner.png';
+import bannerImage from '../assets/banner.png';
 import Header from './Header.jsx';
 
 const LayoutContext = React.createContext(undefined);
@@ -41,7 +41,7 @@ export default function PageLayout() {
             >
                 <Box display='flex' flexDirection='column'>
                     <img src={bannerImage} alt='banner'
-                         style={{margin: '12px', borderRadius: '8px'}}/>
+                         style={{margin: '12px', borderRadius: '15px'}}/>
                     <LayoutContext.Provider value={{setSelectedTabName, setSidebarOpen, mobile}}>
                         <TabList />
                     </LayoutContext.Provider>
