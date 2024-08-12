@@ -1,9 +1,10 @@
 import React from 'react';
+import View from '../components/OrientationView.jsx';
 
-class OrientationTab extends React.Component {
-  render() {
-    return null;
-  }
+export default function OrientationTab() {
+  return (
+    <div style={{width: '100%', height: '500px'}}>
+      <View />
+    </div>
+  )
 }
-
-export default OrientationTab;

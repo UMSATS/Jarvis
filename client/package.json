@@ -9,13 +9,16 @@
     "@mui/icons-material": "^5.15.16",
     "@mui/material": "^5.15.18",
     "@mui/x-charts": "^7.11.1",
+    "@react-three/fiber": "^8.16.8",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/three": "^0.167.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.0",
     "react-scripts": "5.0.1",
+    "three": "^0.167.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
