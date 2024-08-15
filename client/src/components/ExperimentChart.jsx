@@ -12,14 +12,15 @@ const graphProperties = {
 
 const MAX_DOMAIN = 6;
 
-export default function ExperimentChart({ data, timestamps, labels, colors, 
-                                          showInactiveWells = false, 
-                                          domain = MAX_DOMAIN, 
-                                          unitFormat = '',
-                                          title = '',
-                                          width = 500,
-                                          height = 300
-                                        }) {
+export default function ExperimentChart({
+    data, timestamps, labels, colors, 
+    showInactiveWells = false, 
+    domain = MAX_DOMAIN, 
+    unitFormat = '',
+    title = '',
+    width = 500,
+    height = 300
+}) {
     // Lines to chart
     const series = Object.keys(labels)
         // Filter out inactive wells if needed
