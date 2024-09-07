@@ -12,7 +12,7 @@ const graphProperties = {
 
 const MAX_DOMAIN = 6;
 
-export default function ExperimentChart({
+export default function LineGraph({
     data, timestamps, labels, colors, 
     showInactiveWells = false, 
     domain = MAX_DOMAIN, 
