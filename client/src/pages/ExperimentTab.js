@@ -1,5 +1,5 @@
 import React from 'react';
-import LineGraph from '../components/LineGraph.jsx';
+import EnhancedLineChart from '../components/EnhancedLineChart.jsx';
 import ChartControls from '../components/ChartControls.jsx';
 import { 
   chartableTemperatureData, 
@@ -25,7 +25,7 @@ export default function ExperimentTab() {
             display: 'flex', flexWrap: 'wrap', gap: '16px', mt: '8px'
           }}>
             <Box width={CHART_WIDTH}>
-              <LineGraph 
+              <EnhancedLineChart 
                 title='Temperature'
                 unitFormat='°'
                 {...chartableTemperatureData}
@@ -35,7 +35,7 @@ export default function ExperimentTab() {
               />
             </Box>
             <Box width={CHART_WIDTH}>
-              <LineGraph 
+              <EnhancedLineChart 
                 title='Luminosity'
                 unitFormat=' lm'
                 {...chartableLuminosityData}

@@ -19,7 +19,7 @@ const graphProperties = {
 
 const MAX_DOMAIN = 6;
 
-export default function LineGraph({
+export default function EnhancedLineChart({
     data, timestamps, activity, labels, colors,
     showInactiveLines = false, 
     domain = MAX_DOMAIN, 
