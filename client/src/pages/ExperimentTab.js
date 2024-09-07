@@ -1,8 +1,11 @@
 import React from 'react';
 import LineGraph from '../components/LineGraph.jsx';
 import ChartControls from '../components/ChartControls.jsx';
-import { chartableData as temperatureData } from '../components/TemperatureData.jsx';
-import { chartableData as luminosityData } from '../components/LuminosityData.jsx';
+import { 
+  chartableTemperatureData, 
+  chartableLuminosityData, 
+  graphicalData 
+} from '../components/ExperimentData.jsx';
 import Box from '@mui/material/Box';
 
 const CHART_WIDTH = 500;
@@ -25,7 +28,8 @@ export default function ExperimentTab() {
               <LineGraph 
                 title='Temperature'
                 unitFormat='°'
-                {...temperatureData}
+                {...chartableTemperatureData}
+                {...graphicalData}
                 {...controls}
                 {...chartSize}
               />
@@ -34,7 +38,8 @@ export default function ExperimentTab() {
               <LineGraph 
                 title='Luminosity'
                 unitFormat=' lm'
-                {...luminosityData}
+                {...chartableLuminosityData}
+                {...graphicalData}
                 {...controls}
                 {...chartSize}
               />

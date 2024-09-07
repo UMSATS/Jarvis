@@ -13,7 +13,7 @@ const graphProperties = {
 const MAX_DOMAIN = 6;
 
 export default function LineGraph({
-    data, timestamps, labels, colors, 
+    data, timestamps, activity, labels, colors,
     showInactiveWells = false, 
     domain = MAX_DOMAIN, 
     unitFormat = '',
@@ -24,7 +24,7 @@ export default function LineGraph({
     // Lines to chart
     const series = Object.keys(labels)
         // Filter out inactive wells if needed
-        .filter(key => showInactiveWells || data[key][0])
+        .filter(key => showInactiveWells || activity[key])
         // Use keys from labels to assign properties
         .map(key => ({
             dataKey: key,
@@ -35,15 +35,16 @@ export default function LineGraph({
     }));
 
     const dataset = timestamps
-        // Filter out data with timestamps outside the domain
-        .filter((item, index) => index >= MAX_DOMAIN - domain)
+        // Remove data outside the domain
+        .slice(-domain)
         // Index the data using timestamps
-        .map(item => {
-        const filteredItem = { timestamp: item.timestamp };
-        series.forEach(({ dataKey }) => {
-            filteredItem[dataKey] = data[dataKey][item.timestamp];
-        });
-        return filteredItem;
+        .map((item, index) => {
+            const filteredItem = { timestamp: item.timestamp };
+            series.forEach(({ dataKey }) => {
+                // Finds the correct datapoint (now that domains differ)
+                filteredItem[dataKey] = data[dataKey][index + MAX_DOMAIN - domain];
+            });
+            return filteredItem;
     });
 
     return (
