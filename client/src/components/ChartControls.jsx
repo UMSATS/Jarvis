@@ -7,7 +7,7 @@ import Switch from '@mui/material/Switch';
 import { RectRadioButton } from '../styled-components/ButtonStyles.js';
 
 export default function ChartControls({ charts, style }) {
-    const [showInactiveWells, setShowInactiveWells] = React.useState(false);
+    const [showInactiveLines, setshowInactiveLines] = React.useState(false);
     const [domain, setDomain] = React.useState(6);
 
     const domainButtons = [
@@ -16,7 +16,7 @@ export default function ChartControls({ charts, style }) {
       { value: 6, label: 'Last 6' },
     ];
 
-    const renderedCharts = charts({domain, showInactiveWells})
+    const renderedCharts = charts({domain, showInactiveLines})
   
     return (
         <>
@@ -25,8 +25,8 @@ export default function ChartControls({ charts, style }) {
             <FormControlLabel
             control={
                 <Switch
-                    checked={showInactiveWells}
-                    onChange={() => setShowInactiveWells(!showInactiveWells)}
+                    checked={showInactiveLines}
+                    onChange={() => setshowInactiveLines(!showInactiveLines)}
                 />
             }
             label="Show Inactive Wells"

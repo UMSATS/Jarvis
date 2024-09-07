@@ -1,3 +1,10 @@
+/**
+ * A Material-UI Line Chart with extra functionality.
+ * 
+ * The required props must be objects of the same length
+ * and use the same key names (see ExperimentData.jsx).
+ */
+
 import * as React from 'react';
 import { LineChart } from '@mui/x-charts/LineChart';
 import Box from '@mui/material/Box';
@@ -14,7 +21,7 @@ const MAX_DOMAIN = 6;
 
 export default function LineGraph({
     data, timestamps, activity, labels, colors,
-    showInactiveWells = false, 
+    showInactiveLines = false, 
     domain = MAX_DOMAIN, 
     unitFormat = '',
     title = '',
@@ -24,7 +31,7 @@ export default function LineGraph({
     // Lines to chart
     const series = Object.keys(labels)
         // Filter out inactive wells if needed
-        .filter(key => showInactiveWells || activity[key])
+        .filter(key => showInactiveLines || activity[key])
         // Use keys from labels to assign properties
         .map(key => ({
             dataKey: key,
