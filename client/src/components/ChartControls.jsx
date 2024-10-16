@@ -13,7 +13,7 @@ export default function ChartControls({ charts, style }) {
     const domainButtons = [
       { value: 2, label: 'Last 2' },
       { value: 4, label: 'Last 4' },
-      { value: 6, label: 'Last 6' },
+      { value: 6, label: 'Last 6' }
     ];
 
     const renderedCharts = charts({domain, showInactiveLines})

@@ -44,17 +44,17 @@ const labels = {
   well01: 'Well 01',
   well02: 'Well 02',
   well03: 'Well 03',
-  well04: 'Well 04',
+  well04: 'Well 04'
 };
 
 const colors = {
   well01: '#1DDAE0',
   well02: '#991DE0',
   well03: '#ED698D',
-  well04: '#BDED1D',
+  well04: '#BDED1D'
 };
 
 export const graphicalData = {
   labels: labels,
-  colors: colors,
+  colors: colors
 };
