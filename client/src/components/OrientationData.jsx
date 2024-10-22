@@ -1,4 +1,4 @@
-/* Quaternions are in the form [w, x, y, z] */
+/* Quaternions are in the form [x, y, z, w] */
 
 const BASIS = [0, 0, 0, 1]
 
