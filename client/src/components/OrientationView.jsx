@@ -1,12 +1,11 @@
 import React, { useRef } from 'react';
 import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
-import { rotations } from './OrientationData.jsx';
 
-export default function View({ timestamp }) {
+export default function View({ timestamp, rotationData }) {
     return (
         <Canvas>
-            <SatelliteMesh timestamp={timestamp}/>
+            <SatelliteMesh timestamp={timestamp} rotations={rotationData}/>
 
             { /* Using lighting example from R3F introduction */ }
             <ambientLight intensity={Math.PI / 2} />
@@ -19,7 +18,7 @@ export default function View({ timestamp }) {
 // Orients the basis axes of the mesh for better visualization
 const ORIENTATION_OFFSET = [Math.PI / 8, -Math.PI / 4, 0];
 
-function SatelliteMesh({ timestamp }) {
+function SatelliteMesh({ timestamp, rotations }) {
     const meshRef = useRef();
 
     const basisEuler = new THREE.Euler(...ORIENTATION_OFFSET)

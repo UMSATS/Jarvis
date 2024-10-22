@@ -10,7 +10,7 @@ export const timestamps = [
   4
 ]
 
-export const rotations = [
+export const rotationData = [
   BASIS,
   [0, 0.7071, 0, 0.7071],   // 90 degrees about y axis
   [-0.7071, 0, 0, 0.7071],  // -90 degrees about x axis
