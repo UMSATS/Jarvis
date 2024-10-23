@@ -14,6 +14,7 @@ import Box from '@mui/material/Box';
 import TabList from './TabList.jsx';
 import bannerImage from '../assets/banner.png';
 import Header from './Header.jsx';
+import GreetingDialog from './GreetingDialog.jsx';
 
 const LayoutContext = React.createContext(undefined);
 export function useLayoutContext() {
@@ -33,6 +34,8 @@ export default function PageLayout() {
         <ThemeProvider theme={theme}>
         <CssBaseline />
         <Box>
+            <GreetingDialog />
+
             <styles.Sidebar
                 open={sidebarOpen}
                 mobile={mobile}
