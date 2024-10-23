@@ -5,9 +5,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 
-// The cookie expires in 5 seconds - useful for testing, but should be
-// set to a longer period in the future.
-const COOKIE_EXPIRY = 5 / (60 * 60 * 24); // in days
+const COOKIE_EXPIRY = 7; // in days
 
 export default function GreetingDialog() {
     const [open, setOpen] = React.useState(false);
