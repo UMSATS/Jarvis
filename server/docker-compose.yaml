@@ -1,0 +1,29 @@
+services:
+  api:
+    build: .
+    ports:
+      - "5000:5000"
+    links:
+      - influxdb
+    depends_on:
+      influxdb:
+        condition: service_healthy
+        restart: true
+    environment:
+      DB_HOST: influxdb:8086
+      DB_USER: admin
+      DB_PASS: admin
+
+  influxdb:
+    image: influxdb:latest
+    ports:
+      - "8086:8086"
+    environment:
+      INFLUXDB_DB: "jarvis_db"
+      INFLUXDB_ADMIN_USER: "admin"
+      INFLUXDB_ADMIN_PASSWORD: "admin"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/ping"]
+      interval: 5s
+      timeout: 10s
+      retries: 120
