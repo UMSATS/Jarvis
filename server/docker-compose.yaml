@@ -10,7 +10,7 @@ services:
         condition: service_healthy
         restart: true
     environment:
-      DB_HOST: influxdb:8086
+      DB_HOST: localhost:8086
       DB_USER: admin
       DB_PASS: admin
 
