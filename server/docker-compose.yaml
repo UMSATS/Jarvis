@@ -1,6 +1,8 @@
+name: jarvis-backend
 services:
   api:
-    build: .
+    container_name: api
+    build: ./
     ports:
       - "5000:5000"
     links:
@@ -12,18 +14,26 @@ services:
     environment:
       DB_HOST: localhost:8086
       DB_USER: admin
-      DB_PASS: admin
+      DB_PASS: adminPassword
 
   influxdb:
+    container_name: influxdb
     image: influxdb:latest
     ports:
       - "8086:8086"
+    volumes:
+      - influxdb-storage:/var/lib/influxdb
     environment:
-      INFLUXDB_DB: "jarvis_db"
-      INFLUXDB_ADMIN_USER: "admin"
-      INFLUXDB_ADMIN_PASSWORD: "admin"
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=adminPassword
+      - DOCKER_INFLUXDB_INIT_ORG=umsats
+      - DOCKER_INFLUXDB_INIT_BUCKET=my-bucket
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8086/ping"]
+      test: ["CMD-SHELL", "curl", "-f", "localhost:8086"]
       interval: 5s
       timeout: 10s
       retries: 120
+
+volumes:
+    influxdb-storage:
