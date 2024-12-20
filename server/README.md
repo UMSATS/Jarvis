@@ -15,14 +15,8 @@
 
 #### Run
 
-##### DB
-
 *Starting:*
-`docker compose -p Jarvis up -d influxdb`
+`docker compose up`
 
 *Stopping:*
-`docker compose -p Jarvis down`
-
-##### Start api
-
-`TODO`
+`docker compose down`
