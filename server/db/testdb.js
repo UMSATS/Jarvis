@@ -32,6 +32,7 @@ async function updateWellData(wellNum, tempNum){
         const point = new Point('well temperature')
             .tag('well', wellNum)
             .floatField('temp', tempNum)
+            .timestamp(new Date())
 
         writeApi.writePoint(point)
     } catch (error) {
@@ -49,7 +50,7 @@ async function initWells(){
 }
 
 async function main() {
-    //await initWells()
+    await initWells()
     await wellQuery(1)
 }
 
