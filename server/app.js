@@ -16,7 +16,7 @@ app.post('/register', (req, res) => {
    const name = req.body.name;
 
    res.send('Hello ' + name + ' you are registered successfully');
-   });
+});
 
 
    
