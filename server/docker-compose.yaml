@@ -1,5 +1,23 @@
 name: jarvis-backend
 services:
+  api:
+    container_name: api
+    image: jarvis-api:latest
+    build:
+      context: .
+    ports:
+      - "5000:5000"
+    links:
+      - influxdb
+    volumes:
+      - .:/app
+    restart: always
+    environment:
+      DB_HOST: influxdb
+      DB_PORT: 8086
+      DB_USER: admin
+      DB_PASS: adminPassword
+      DB_TOKEN: umsatsAdminToken
   influxdb:
     container_name: influxdb
     image: influxdb:latest
