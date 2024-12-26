@@ -1,5 +1,5 @@
 const express = require('express');
-
+const {logInfoMsgPrefix, logWarnMsgPrefix, logErrorMsgPrefix} = require('./utils/utils');
 const app = express();
 
 app.use(express.json());
@@ -7,14 +7,14 @@ app.use(express.json());
 
 app.post('/login', (req, res) => {
 
-   console.log('Request body', req.body);
+   console.log(logInfoMsgPrefix("Logging in user"), 'Request_body:', req.body);
 
    res.send('This is login validation logic');
 });
 
 app.post('/register', (req, res) => {
 
-   console.log('Request body', req.body);
+   console.log(logInfoMsgPrefix("Registering user"), 'Request_body:', req.body);
 
    const name = req.body.name;
 
@@ -23,7 +23,7 @@ app.post('/register', (req, res) => {
 
 app.get("/health", (req, res) => {
 
-   console.log('health check');
+   console.log(logInfoMsgPrefix('API health check'), 'request_body:', req.body);
 
    res.status(200).json({
       name: 'api', 
