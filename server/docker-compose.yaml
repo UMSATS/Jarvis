@@ -9,16 +9,26 @@ services:
       - "5000:5000"
     links:
       - influxdb
+    depends_on:
+      influxdb:
+        condition: service_healthy
     volumes:
       - .:/app
     restart: always
     environment:
       DB_HOST: influxdb
       DB_PORT: 8086
-      DB_URL: http://localhost:8086
+      DB_BUCKET: jarvis
+      DB_ORG: umsats
       DB_USER: admin
       DB_PASS: adminPassword
       DB_TOKEN: umsatsAdminToken
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f localhost:5000/health"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 10s
   influxdb:
     container_name: influxdb
     image: influxdb:latest
@@ -34,10 +44,10 @@ services:
       - DOCKER_INFLUXDB_INIT_BUCKET=jarvis
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=umsatsAdminToken
     healthcheck:
-      test: ["CMD-SHELL", "curl", "-f", "localhost:8086"]
+      test: ["CMD-SHELL", "curl -f localhost:8086/health"]
       interval: 5s
       timeout: 10s
-      retries: 120
+      retries: 12
 
 volumes:
     influxdb-storage:
