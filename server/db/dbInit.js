@@ -1,5 +1,5 @@
 const {InfluxDB, Point} = require('@influxdata/influxdb-client')
-const { db_url, db_adminToken, db_bucket, db_org } = require('../env')
+const { db_url, db_adminToken, db_bucket, db_org } = require('../config/env')
 
 async function dbInit(dbInstance = null){
     if(dbInstance == null){

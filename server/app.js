@@ -1,5 +1,6 @@
 const express = require('express');
 const {logInfoMsgPrefix, logWarnMsgPrefix, logErrorMsgPrefix} = require('./utils/utils');
+const packageLock = require('../package-lock.json');
 const app = express();
 
 app.use(express.json());
@@ -25,12 +26,14 @@ app.get("/health", (req, res) => {
 
    console.log(logInfoMsgPrefix('API health check'), 'request_body:', req.body);
 
+   const version = packageLock.version;
+
    res.status(200).json({
       name: 'api', 
       message: "API is up and running",
       status: 'pass',
       checks: [],
-      version: '0.1', //TODO: need to read from somewhere
+      version: version,
       timestamp: new Date().toISOString()
    });
 });
