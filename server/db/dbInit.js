@@ -3,6 +3,11 @@ const { InfluxDB, Point } = require('@influxdata/influxdb-client');
 const { db_url, db_adminToken, db_bucket, db_org } = require('../config/env');
 const { payloadTags } = require('../measurements/payloadMeasurements');
 
+/**
+ * dbInit.js
+ * @brief This file initializes the database with default values
+ */
+
 async function dbInit(dbInstance = null){
 
     await wellsInit(writeApi);

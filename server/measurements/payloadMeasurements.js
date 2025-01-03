@@ -4,6 +4,11 @@ const { db_bucket } = require('../config/env');
 const { logErrorMsgPrefix, logInfoMsgPrefix } = require('../utils/utils');
 const { json } = require('express');
 
+/**
+ * payloadMeasurements.js
+ * @brief This file contains the functions to fetch payload related measurements
+ */
+
 const payloadTags = 'Payload';
 const wellsMeasurementsTag = 'well temperature';
 const wellsMeasurementsField = 'temp';

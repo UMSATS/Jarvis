@@ -6,6 +6,11 @@ const db_bucket = process.env.DB_BUCKET;
 const db_org = process.env.DB_ORG;
 const api_port = 5000;
 
+/**
+ * env.js
+ * @brief This file is used to set the environment variables for the application, mostly depends on docker-compose.yaml
+ */
+
 if(!db_url){
     console.error('DB_URL is not set');
     process.exit(1);

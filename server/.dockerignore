@@ -3,3 +3,4 @@ test
 config
 **/build/
 .env
+env.js

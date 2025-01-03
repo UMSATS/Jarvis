@@ -3,9 +3,15 @@ const {logInfoMsgPrefix, logWarnMsgPrefix, logErrorMsgPrefix} = require('./utils
 const packageLock = require('./package-lock.json');
 const { wellsMeasurements } = require('./measurements/payloadMeasurements');
 
+// route imports, see ./routes folder
 const payloadRouter = require('./routes/payloadRoutes');
 
 const app = express();
+
+/**
+ * app.js
+ * @brief This file contains the main routes for the API
+ */
 
 app.use(express.json());
 
@@ -25,6 +31,7 @@ app.post('/register', (req, res) => {
    res.send('Hello ' + name + ' you are registered successfully');
 });
 
+// a health check route, mainly for monitoring purposes
 app.get("/health", (req, res) => {
 
    console.log(logInfoMsgPrefix('API health check'), 'request_body:', req.body);
@@ -41,6 +48,7 @@ app.get("/health", (req, res) => {
    });
 });
   
+// routes for each endpoint, see ./routes folder
 app.use('/payload', payloadRouter);
 
 module.exports = app;
