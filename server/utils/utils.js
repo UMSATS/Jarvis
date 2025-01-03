@@ -1,7 +1,7 @@
 function logInfoMsgPrefix(message) {
     let logMessage = 'ts=' + new Date().toISOString() + ' ';
     logMessage += 'lvl=info ';
-    logMessage += 'msg="' + message+'" ';
+    logMessage += `msg= "${message}" `;
     logMessage += 'service=api';
     return logMessage;
 }
@@ -9,7 +9,7 @@ function logInfoMsgPrefix(message) {
 function logWarnMsgPrefix(message) {
     let logMessage = 'ts=' + new Date().toISOString() + ' ';
     logMessage += 'lvl=warn ';
-    logMessage += 'msg="' + message+'" ';
+    logMessage += `msg= "${message}" `;
     logMessage += 'service=api';
     return logMessage;
 }
@@ -17,7 +17,7 @@ function logWarnMsgPrefix(message) {
 function logErrorMsgPrefix(message) {
     let logMessage = 'ts=' + new Date().toISOString() + ' ';
     logMessage += 'lvl=error ';
-    logMessage += 'msg="' + message+'" ';
+    logMessage += `msg= "${message}" `;
     logMessage += 'service=api';
     return logMessage;
 }

@@ -14,21 +14,19 @@ async function wellsMeasurements(wellNum){
         |> filter(fn: (r) => r["_measurement"] == "${wellsMeasurementsTag}")
         |> filter(fn: (r) => r["_field"] == "${wellsMeasurementsField}")
         |> filter(fn: (r) => r["host"] == "${payloadTags}")
-        |> filter(fn: (r) => r["well"] == "${wellNum}")`;
+        |> filter(fn: (r) => r["well"] == "${wellNum}")
+        |> keep(columns: ["_time", "_value", "well"])`;
     return new Promise((resolve, reject) => {
-        let result = "";
+        let result = [];
         queryApi.queryRows(query, {
             next(row, tableMeta) {
                 const o = tableMeta.toObject(row);
-                result += JSON.stringify(o);
+                result.push(o);
             },
             error(error) {
-                console.error(logErrorMsgPrefix('Error querying wells measurements'), error);
                 reject(error);
             },
             complete() {
-                console.log(logInfoMsgPrefix('Wells measurements query completed'));
-                console.log(result);
                 resolve(result);
             }
         });
