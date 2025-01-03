@@ -1,7 +1,9 @@
-const {InfluxDB} = require('@influxdata/influxdb-client')
-const { db_url, db_adminToken, db_bucket, db_org } = require('../config/env')
-const { logInfoMsgPrefix, logErrorMsgPrefix } = require('../utils/utils')
+const {InfluxDB} = require('@influxdata/influxdb-client');
+const { db_url, db_adminToken, db_org, db_bucket} = require('../config/env');
 
-const instance = new InfluxDB({url: db_url, token: db_adminToken})
+const dbInstance = new InfluxDB({url: db_url, token: db_adminToken});
 
-module.exports = instance
+const writeApi = dbInstance.getWriteApi(db_org, db_bucket);
+const queryApi = dbInstance.getQueryApi(db_org);
+
+module.exports = {writeApi, queryApi, dbInstance};
