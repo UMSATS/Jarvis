@@ -1,5 +1,9 @@
 # JARVIS backend
 
+## documentation
+
+- under *docs* folder
+
 ## setup
 
 ### Prerequisites
