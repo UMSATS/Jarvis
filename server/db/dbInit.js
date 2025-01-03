@@ -1,12 +1,10 @@
-const {InfluxDB, Point} = require('@influxdata/influxdb-client')
+const instance = require('./dbSingleton')
+const { InfluxDB, Point } = require('@influxdata/influxdb-client')
 const { db_url, db_adminToken, db_bucket, db_org } = require('../config/env')
 
 async function dbInit(dbInstance = null){
-    if(dbInstance == null){
-        dbInstance = new InfluxDB({url: db_url, token: db_adminToken})
-    }
 
-    const writeApi = dbInstance.getWriteApi(db_org, db_bucket)
+    const writeApi = instance.getWriteApi(db_org, db_bucket)
     await wellsInit(writeApi)
 }
 
