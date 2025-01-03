@@ -2,7 +2,6 @@ name: jarvis-backend
 services:
   api:
     container_name: api
-    image: jarvis-api:latest
     build:
       context: .
     ports:
