@@ -1,10 +1,13 @@
 const express = require('express');
 const {logInfoMsgPrefix, logWarnMsgPrefix, logErrorMsgPrefix} = require('./utils/utils');
-const packageLock = require('../package-lock.json');
+const packageLock = require('./package-lock.json');
+const { wellsMeasurements } = require('./measurements/payloadMeasurements');
+
+const payloadRouter = require('./routes/payloadRoutes');
+
 const app = express();
 
 app.use(express.json());
-
 
 app.post('/login', (req, res) => {
 
@@ -37,5 +40,7 @@ app.get("/health", (req, res) => {
       timestamp: new Date().toISOString()
    });
 });
-   
+  
+app.use('/payload', payloadRouter);
+
 module.exports = app;
