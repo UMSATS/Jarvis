@@ -1,3 +1,8 @@
+/**
+ * env.js
+ * @brief This file is used to set the environment variables for the application, mostly depends on docker-compose.yaml
+ */
+
 const db_url = "http://"+process.env.DB_HOST+":"+process.env.DB_PORT;
 const db_username = process.env.DB_USER;
 const db_password = process.env.DB_PASS;
@@ -5,11 +10,6 @@ const db_adminToken = process.env.DB_TOKEN;
 const db_bucket = process.env.DB_BUCKET;
 const db_org = process.env.DB_ORG;
 const api_port = 5000;
-
-/**
- * env.js
- * @brief This file is used to set the environment variables for the application, mostly depends on docker-compose.yaml
- */
 
 if(!db_url){
     console.error('DB_URL is not set');
