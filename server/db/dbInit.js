@@ -9,10 +9,10 @@ const { payloadTags } = require('../measurements/payloadMeasurements');
  */
 
 async function dbInit(dbInstance = null){
-
-    await wellsInit(writeApi);
+    
 }
 
+// depracted
 async function wellsInit(writeApiInstance){
     try{
         writeApiInstance.useDefaultTags({host: payloadTags});
