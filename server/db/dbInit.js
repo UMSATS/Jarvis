@@ -12,7 +12,9 @@ async function dbInit(dbInstance = null){
     
 }
 
-// depracted
+/**
+ * @deprecated
+ */
 async function wellsInit(writeApiInstance){
     try{
         writeApiInstance.useDefaultTags({host: payloadTags});
