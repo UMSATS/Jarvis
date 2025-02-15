@@ -13,9 +13,9 @@ const payloadTags = 'Payload';
 const wellsMeasurementsTag = 'well temperature';
 const wellsMeasurementsField = 'temp';
 
-async function wellsMeasurements(wellNum){
+async function wellsMeasurements(wellNum, period){
     const query = `from(bucket: "${db_bucket}")
-        |> range(start: -1h)
+        |> range(start: -${period})
         |> filter(fn: (r) => r["_measurement"] == "${wellsMeasurementsTag}")
         |> filter(fn: (r) => r["_field"] == "${wellsMeasurementsField}")
         |> filter(fn: (r) => r["host"] == "${payloadTags}")

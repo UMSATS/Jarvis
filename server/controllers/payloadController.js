@@ -11,6 +11,7 @@ const { logInfoMsgPrefix, logWarnMsgPrefix, logErrorMsgPrefix } = require('../ut
 exports.wellsTemperature = async (req, res) => {
     console.log(logInfoMsgPrefix('Payload wells temperature check'), 'request_body:', req.body);
     const wellNum = req.params.wellNum;
+    var { period } = req.query; // extract query parameters
 
     // check if well number is provided, shouldn't happen
     if(!wellNum){
@@ -26,8 +27,23 @@ exports.wellsTemperature = async (req, res) => {
         return;
     }
 
+    // check if period is provided, if not, set period to 1h
+    if(!period){
+        console.log(logWarnMsgPrefix('Period not provided, setting to 1h'));
+        period = '1h';
+    }else{
+        // check if period is valid, the period should be in the format of 1h, 1d, 1w, 1m, 1y, the digit can be any number except negative
+        const periodRegex = /^[0-9]\d*[hwdmy]$/;
+        if(!periodRegex.test(period)){
+            console.log(logWarnMsgPrefix(`Invalid period provided: ${period}`));
+            res.status(400).json({error: 'Invalid period provided, must be in the format of 1h, 1d, 1w, 1m, 1y'});
+            return;
+        }
+
+    }
+
     try {
-        const queryResult = await wellsMeasurements.wellsMeasurements(wellNum);
+        const queryResult = await wellsMeasurements.wellsMeasurements(wellNum, period);
 
         const formattedResult = queryResult.map(item => ({
             well: item.well,
