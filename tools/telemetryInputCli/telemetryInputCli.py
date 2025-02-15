@@ -1,11 +1,33 @@
 import cmd
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from influxdb_client import InfluxDBClient, Point, WritePrecision
 from influxdb_client.client.write_api import SYNCHRONOUS
 from dotenv import load_dotenv, dotenv_values
 
 load_dotenv()
 config = dotenv_values(".env")
+
+def askingForPeriod() -> str:
+    period = input("Please enter the period (digit)(h/d/w/m/y): ")
+    if period[-1] not in ['h', 'd', 'w', 'm', 'y']:
+        print("Invalid period")
+        return askingForPeriod()
+    return period
+
+def parsePeriod(period: str) -> datetime:
+    period = period.lower()
+    if period[-1] == 'h':
+        return timedelta(hours=int(period[:-1]))
+    elif period[-1] == 'd':
+        return timedelta(days=int(period[:-1]))
+    elif period[-1] == 'w':
+        return timedelta(weeks=int(period[:-1]))
+    elif period[-1] == 'm':
+        return timedelta(minutes=int(period[:-1]))
+    elif period[-1] == 'y':
+        return timedelta(years=int(period[:-1]))
+    else:
+        return timedelta(0)
 
 class TelemetryInputCli(cmd.Cmd):
     url = config.get('URL')
@@ -26,6 +48,8 @@ class TelemetryInputCli(cmd.Cmd):
     
     def do_insert_wells(self, arg):
         'Insert data into all wells with current time'
+        period = askingForPeriod()
+        calculatedTime: datetime = datetime.now(timezone.utc) - parsePeriod(period)
         print("Please enter the data you want to insert: ")
         try:
             data = float(input())
@@ -33,12 +57,14 @@ class TelemetryInputCli(cmd.Cmd):
             print("Invalid input")
             return
         for well in range(1, 17):
-            point = Point('well temperature').tag("well", well).field("temp", data).time(datetime.now(timezone.utc), WritePrecision.NS).tag("host", self.payloadTag)
+            point = Point('well temperature').tag("well", well).field("temp", data).time(calculatedTime, WritePrecision.NS).tag("host", self.payloadTag)
             self.write_api.write(self.bucket, self.org, point)
         print("Data inserted successfully")
     
     def do_insert_well(self, arg):
         'Insert data into a specific well with current time'
+        period = askingForPeriod()
+        calculatedTime: datetime = datetime.now(timezone.utc) - parsePeriod(period)
         print("Please enter the well number (1-16): ")
         try:
             well = int(input())
@@ -54,7 +80,7 @@ class TelemetryInputCli(cmd.Cmd):
         except ValueError:
             print("Invalid input")
             return
-        point = Point('well temperature').tag("well", well).field("temp", data).time(datetime.now(timezone.utc), WritePrecision.NS).tag("host", self.payloadTag)
+        point = Point('well temperature').tag("well", well).field("temp", data).time(calculatedTime, WritePrecision.NS).tag("host", self.payloadTag)
         self.write_api.write(self.bucket, self.org, point)
         print("Data inserted successfully")
 
