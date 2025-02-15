@@ -15,4 +15,5 @@
   - query parameters
     - period
       - returning measurements with given period
+      - default to be last 1 hour data
       - must be in the format of 1h, 1d, 1w, 1m, 1y, etc
