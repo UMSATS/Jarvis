@@ -8,8 +8,11 @@ load_dotenv()
 config = dotenv_values(".env")
 
 def askingForPeriod() -> str:
-    period = input("Please enter the period (digit)(h/d/w/m/y): ")
-    if period[-1] not in ['h', 'd', 'w', 'm', 'y']:
+    period = input("Please enter the period (digit)(h/d/w/m): ")
+    if period[-1] not in ['h', 'd', 'w', 'm']:
+        print("Invalid period")
+        return askingForPeriod()
+    if not period[:-1].isdigit():
         print("Invalid period")
         return askingForPeriod()
     return period
@@ -24,8 +27,6 @@ def parsePeriod(period: str) -> datetime:
         return timedelta(weeks=int(period[:-1]))
     elif period[-1] == 'm':
         return timedelta(minutes=int(period[:-1]))
-    elif period[-1] == 'y':
-        return timedelta(years=int(period[:-1]))
     else:
         return timedelta(0)
 
