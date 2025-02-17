@@ -1,51 +1,36 @@
-import React from 'react';
-import EnhancedLineChart from '../components/EnhancedLineChart.jsx';
-import ChartControls from '../components/ChartControls.jsx';
-import { 
-  chartableTemperatureData, 
-  chartableLuminosityData, 
-  graphicalData 
-} from '../components/ExperimentData.jsx';
+import { React, useState} from 'react';
+import { temperatureData, labels } from '../components/ExperimentData.jsx';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import TimeseriesChart from '../components/TimeseriesChart.jsx';
 
-const CHART_WIDTH = 500;
+const CHART_WIDTH = 800;
 
 const chartSize = {
   width: CHART_WIDTH,
-  height: 300 
+  height: 400 
 }
 
 export default function ExperimentTab() {
+  const [start, setStart] = useState(25);
+
+  function testTime() {
+    setStart(start + 5);
+  }
+
   return (
     <Box>
-      <ChartControls 
-        style={{mt: '16px', ml: '16px'}}
-        charts={({...controls}) => (
-          <Box sx={{
-            display: 'flex', flexWrap: 'wrap', gap: '16px', mt: '8px'
-          }}>
-            <Box width={CHART_WIDTH}>
-              <EnhancedLineChart 
-                title='Temperature'
-                unitFormat='°'
-                {...chartableTemperatureData}
-                {...graphicalData}
-                {...controls}
-                {...chartSize}
-              />
-            </Box>
-            <Box width={CHART_WIDTH}>
-              <EnhancedLineChart 
-                title='Luminosity'
-                unitFormat=' lm'
-                {...chartableLuminosityData}
-                {...graphicalData}
-                {...controls}
-                {...chartSize}
-              />
-            </Box>
-          </Box>
-      )} />
+      <TimeseriesChart 
+        title="Temperature (°C)"
+        dataset={temperatureData}
+        labels={labels}
+        ymin={-10} ymax={10}
+        start={start}
+        style={{...chartSize}}
+      />
+      <Button onClick={() => testTime()} style={{width: "20px", height: "20px"}}>
+        Test
+      </Button>
     </Box>
   );
 }

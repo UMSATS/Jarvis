@@ -1,60 +1,47 @@
-const temperatureData = {
-  well01: [1, 2, 3, 2, 2, 1],
-  well02: [3, 2, 2, 1, 1, 2],
-  well03: [1, 3, 2, 1, 2, 2],
-  well04: [4, 2, 2, 1, 1, 3]
-};
+let hour = 1000 * 60 * 60;
 
-const luminosityData = {
-  well01: [240, 140, 640, 650, 300, 200],
-  well02: [590, 380, 440, 780, 550, 690],
-  well03: [630, 480, 780, 650, 460, 780],
-  well04: [160, 790, 740, 600, 730, 440]
-};
+export const temperatureData = Array.from({ length: 4 }, () =>
+  Array.from({ length: 48 }, (_, i) => [
+    Date.now() - i * hour, 
+    (Math.random() * 10 - 5).toFixed(2)
+  ])
+);
 
-const activeWells = {
-  well01: true,
-  well02: true,
-  well03: false,
-  well04: true
-}
+/* What the data array actually looks like
+export const temperatureData = [
+  [
+    [Date.now(), 1],
+    [Date.now() - 1 * hour, 2],
+    [Date.now() - 2 * hour, 3],
+    [Date.now() - 3 * hour, 2],
+    [Date.now() - 4 * hour, 2],
+    [Date.now() - 5 * hour, 1]
+  ],
+  [
+    [Date.now(), 3],
+    [Date.now() - 1 * hour, 2],
+    [Date.now() - 2 * hour, 2],
+    [Date.now() - 3 * hour, 1],
+    [Date.now() - 4 * hour, 1],
+    [Date.now() - 5 * hour, 2]
+  ],
+  [
+    [Date.now(), 1],
+    [Date.now() - 1 * hour, 3],
+    [Date.now() - 2 * hour, 2],
+    [Date.now() - 3 * hour, 1],
+    [Date.now() - 4 * hour, 2],
+    [Date.now() - 5 * hour, 2]
+  ],
+  [
+    [Date.now(), 4],
+    [Date.now() - 1 * hour, 2],
+    [Date.now() - 2 * hour, 2],
+    [Date.now() - 3 * hour, 1],
+    [Date.now() - 4 * hour, 1],
+    [Date.now() - 5 * hour, 3]
+  ]
+]
+*/
 
-const timestamps = [
-  { timestamp: 1 },
-  { timestamp: 2 },
-  { timestamp: 3 },
-  { timestamp: 4 },
-  { timestamp: 5 },
-  { timestamp: 6 }
-];
-
-export const chartableTemperatureData = {
-  data: temperatureData,
-  timestamps: timestamps,
-  activity: activeWells
-}
-
-export const chartableLuminosityData = {
-  data: luminosityData,
-  timestamps: timestamps,
-  activity: activeWells
-}
-
-const labels = {
-  well01: 'Well 01',
-  well02: 'Well 02',
-  well03: 'Well 03',
-  well04: 'Well 04'
-};
-
-const colors = {
-  well01: '#1DDAE0',
-  well02: '#991DE0',
-  well03: '#ED698D',
-  well04: '#BDED1D'
-};
-
-export const graphicalData = {
-  labels: labels,
-  colors: colors
-};
+export const labels = Array.from({length: 4}, (_, i) => `Well ${i + 1}`)
