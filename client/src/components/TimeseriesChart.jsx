@@ -3,10 +3,13 @@ import ReactECharts from "echarts-for-react";
 
 export default function TimeseriesChart({ 
   dataset,
+  title, labels, style,
+  seriesActivity = Array.from(
+    {length: dataset.length}, (_, i) => 1
+  ),
   xmin = "dataMin", xmax = Date.now(),
   ymin = "dataMin", ymax = "dataMax",
   start = 0, end = 100,
-  title, labels, style 
 }) {
   const options = {
     title: {
@@ -30,6 +33,9 @@ export default function TimeseriesChart({
       name: labels[index],
       type: "line",
       data: lineData,
+      lineStyle: {
+        opacity: seriesActivity[index]
+      },
       showSymbol: false
     })),
     dataZoom: [
