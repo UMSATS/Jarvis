@@ -34,13 +34,10 @@ export default function TimeseriesChart({
     })),
     dataZoom: [
       {
-        show: true,
-        // Doesn't hide data outside of range
+        show: false,
         filterMode: "none",
-        // In percentage - these can be hooked
-        // for global time control
-        start: start,
-        end: end
+        startValue: start,
+        endValue: end
       },
       {
         type: 'inside'

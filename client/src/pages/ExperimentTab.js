@@ -1,8 +1,10 @@
-import { React, useState} from 'react';
-import { temperatureData, labels } from '../components/ExperimentData.jsx';
+import { React } from 'react';
+import {
+  temperatureData, luminosityData, labels 
+} from '../components/ExperimentData.jsx';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import TimeseriesChart from '../components/TimeseriesChart.jsx';
+import { useTimeContext } from "../components/TimeRangeContext.jsx";
 
 const CHART_WIDTH = 800;
 
@@ -12,11 +14,7 @@ const chartSize = {
 }
 
 export default function ExperimentTab() {
-  const [start, setStart] = useState(25);
-
-  function testTime() {
-    setStart(start + 5);
-  }
+  const TimeContext = useTimeContext();
 
   return (
     <Box>
@@ -25,12 +23,19 @@ export default function ExperimentTab() {
         dataset={temperatureData}
         labels={labels}
         ymin={-10} ymax={10}
-        start={start}
+        start={TimeContext.timeRange.start}
+        end={TimeContext.timeRange.end}
         style={{...chartSize}}
       />
-      <Button onClick={() => testTime()} style={{width: "20px", height: "20px"}}>
-        Test
-      </Button>
+      <TimeseriesChart 
+        title="Luminosity (lm)"
+        dataset={luminosityData}
+        labels={labels}
+        ymin={550} ymax={850}
+        start={TimeContext.timeRange.start}
+        end={TimeContext.timeRange.end}
+        style={{...chartSize}}
+      />
     </Box>
   );
 }
