@@ -11,6 +11,7 @@ export const HeaderLeftBox = styled(Box)(() => ({
 }));
 
 export const HeaderRightBox = styled(Box)(() => ({
+    display: 'flex',
     width: 'fit-content',
     right: '1em',
     position: 'absolute'
