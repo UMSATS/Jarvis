@@ -23,6 +23,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       
+      - name: move into server directory
+        run: cd server
+      
       - name: Set up environment variables
         run: |
           echo "DB_HOST=influxdb" >> $GITHUB_ENV
@@ -33,9 +36,8 @@ jobs:
           echo "DB_PASS=adminPassword" >> $GITHUB_ENV
           echo "DB_TOKEN=umsatsAdminToken" >> $GITHUB_ENV
 
-      - name: Build
+      - name: Build and test
         run: |
-          cd server
           npm install
           npm run build --if-present
           npm run test
