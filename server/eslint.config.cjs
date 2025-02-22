@@ -2,18 +2,22 @@ const js = require("@eslint/js");
 const node = require("eslint-plugin-n");
 
 module.exports = [
-  js.configs.recommended, // Standard JS rules
-  node.configs["flat/recommended"], // Node.js best practices
+  js.configs.recommended,
+  node.configs["flat/recommended"],
   {
-    ignores: ["node_modules/", "eslint.config.cjs"], // Ignore ESLint config itself
+    ignores: [
+      "/node_modules/", 
+      "/eslint.config.cjs" // Ignore ESLint config file
+    ],
     languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module", // Change to "script" if fully using CommonJS
+      ecmaVersion: "latest", // Use the latest ECMAScript features
+      sourceType: "module", // Use "script" if your project is CommonJS
     },
     rules: {
-      "no-console": "off", // Allow console.logs
       "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
-      "n/no-missing-import": "off",
+      "n/no-process-exit": "off",
+      "no-console": "off",
+      "n/no-unpublished-require": "off",
     },
   },
 ];
