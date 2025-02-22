@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "jest --testTimeout=100000",
+    "test": "eslint .",
     "start": "node server.js"
   },
   "author": "",
@@ -15,6 +15,6 @@
     "express": "^4.19.2"
   },
   "devDependencies": {
-    "jest": "^29.7.0"
+    "eslint": "^9.21.0"
   }
 }
