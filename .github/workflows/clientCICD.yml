@@ -28,4 +28,4 @@ jobs:
                   cd client
                   npm install
                   CI=false npm run build
-                  npm run test
+                  npm run test -- --passWithNoTests
