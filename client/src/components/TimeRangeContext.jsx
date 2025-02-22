@@ -14,26 +14,13 @@ export function useTimeContext() {
 
 export default function TimeRangeProvider({ children }) {
     const [timeRange, setTimeRange] = useState({
-        start: mountTime - 1000 * 3600 * 24,
-        end: mountTime
+        start: new Date(mountTime - 1000 * 3600 * 24),
+        end: new Date(mountTime)
     });
 
-    const setStart = (value) => {
-        setTimeRange({
-            start: value,
-            end: timeRange.end
-        });
-    }
-    const setEnd = (value) => {
-        setTimeRange({
-            start: timeRange.start,
-            end: value
-        });
-    }
-
     return (
-        <TimeContext.Provider value={{ timeRange, setStart, setEnd }}>
-        {children}
+        <TimeContext.Provider value={{ timeRange, setTimeRange }}>
+            {children}
         </TimeContext.Provider>
     )
 }
