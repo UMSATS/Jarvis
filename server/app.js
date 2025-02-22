@@ -24,7 +24,7 @@ app.post('/login', (req, res) => {
 
 app.post('/register', (req, res) => {
 
-   console.log(logInfoMsgPrefix("Registering user"), 'Request_body:', req.body);
+   console.log(logInfosMsgPrefix("Registering user"), 'Request_body:', req.body);
 
    const name = req.body.name;
 
