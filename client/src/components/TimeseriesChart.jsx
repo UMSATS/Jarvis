@@ -7,7 +7,6 @@ export default function TimeseriesChart({
   seriesActivity = Array.from(
     {length: dataset.length}, (_, i) => 1
   ),
-  xmin = "dataMin", xmax = Date.now(),
   ymin = "dataMin", ymax = "dataMax",
   start = 0, end = 100,
 }) {
@@ -20,8 +19,7 @@ export default function TimeseriesChart({
     },
     xAxis: {
       type: "time",
-      min: xmin,
-      max: xmax
+      max: end
     },
     yAxis: {
       type: "value",
@@ -40,13 +38,17 @@ export default function TimeseriesChart({
     })),
     dataZoom: [
       {
-        show: false,
-        filterMode: "none",
+        type: 'inside',
+        xAxisIndex: [0],
         startValue: start,
-        endValue: end
+        endValue: end,
+        disabled: true
       },
       {
-        type: 'inside'
+        type: 'slider',
+        yAxisIndex: [0],
+        filterMode: 'none',
+        show: true,
       }
     ],
   };
