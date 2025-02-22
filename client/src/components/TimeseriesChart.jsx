@@ -7,8 +7,8 @@ export default function TimeseriesChart({
   seriesActivity = Array.from(
     {length: dataset.length}, (_, i) => 1
   ),
+  xmin = "dataMin", xmax = "dataMax",
   ymin = "dataMin", ymax = "dataMax",
-  start = 0, end = 100,
 }) {
   const options = {
     title: {
@@ -19,7 +19,8 @@ export default function TimeseriesChart({
     },
     xAxis: {
       type: "time",
-      max: end
+      min: xmin,
+      max: xmax
     },
     yAxis: {
       type: "value",
@@ -34,21 +35,20 @@ export default function TimeseriesChart({
       lineStyle: {
         opacity: seriesActivity[index]
       },
-      showSymbol: false
+      showSymbol: false,
+      animation: false
     })),
     dataZoom: [
       {
-        type: 'inside',
+        type: 'slider',
         xAxisIndex: [0],
-        startValue: start,
-        endValue: end,
-        disabled: true
+        filterMode: 'none'
       },
       {
         type: 'slider',
         yAxisIndex: [0],
         filterMode: 'none',
-        show: true,
+        showDataShadow: false
       }
     ],
   };

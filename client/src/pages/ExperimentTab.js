@@ -28,8 +28,8 @@ export default function ExperimentTab() {
         labels={labels}
         seriesActivity={!showInactiveWells ? wellActivity : undefined}
         ymin={-10} ymax={10}
-        start={TimeContext.timeRange.start}
-        end={TimeContext.timeRange.end}
+        xmin={TimeContext.timeRange.start}
+        xmax={TimeContext.timeRange.end}
         style={{...chartSize}}
       />
       <TimeseriesChart 
@@ -38,8 +38,8 @@ export default function ExperimentTab() {
         labels={labels}
         seriesActivity={!showInactiveWells ? wellActivity : undefined}
         ymin={550} ymax={850}
-        start={TimeContext.timeRange.start}
-        end={TimeContext.timeRange.end}
+        xmin={TimeContext.timeRange.start}
+        xmax={TimeContext.timeRange.end}
         style={{...chartSize}}
       />
       <FormControlLabel
