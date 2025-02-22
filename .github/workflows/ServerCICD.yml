@@ -32,13 +32,10 @@ jobs:
           echo "DB_USER=admin" >> $GITHUB_ENV
           echo "DB_PASS=adminPassword" >> $GITHUB_ENV
           echo "DB_TOKEN=umsatsAdminToken" >> $GITHUB_ENV
-      
-      - name: move into server directory
+
+      - name: Build
         run: |
           cd server
-
-      - name: Build and test
-        run: |
           npm install
           npm run build --if-present
           npm run test
