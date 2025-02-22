@@ -6,7 +6,7 @@ import '@fontsource/poppins/400.css';
 import '@fontsource/poppins/500.css';
 import '@fontsource/poppins/600.css';
 import PageLayout from './components/PageLayout';
-import Dashsboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard';
 import ExperimentTab from './pages/ExperimentTab';
 import EventLogTab from './pages/EventLogTab';
 import BatteryTab from './pages/BatteryTab';
