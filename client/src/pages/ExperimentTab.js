@@ -20,27 +20,27 @@ export default function ExperimentTab() {
 
   const [showInactiveWells, setShowInactiveWells] = useState(true);
 
+  const chartProps = {
+    labels: labels,
+    seriesActivity: !showInactiveWells ? wellActivity : undefined,
+    xmin: TimeContext.timeRange.start,
+    xmax: TimeContext.timeRange.end,
+    style: {...chartSize}
+  }
+
   return (
     <Box>
       <TimeseriesChart 
         title="Temperature (°C)"
         dataset={temperatureData}
-        labels={labels}
-        seriesActivity={!showInactiveWells ? wellActivity : undefined}
         ymin={-10} ymax={10}
-        xmin={TimeContext.timeRange.start}
-        xmax={TimeContext.timeRange.end}
-        style={{...chartSize}}
+        {...chartProps}
       />
       <TimeseriesChart 
         title="Luminosity (lm)"
         dataset={luminosityData}
-        labels={labels}
-        seriesActivity={!showInactiveWells ? wellActivity : undefined}
         ymin={550} ymax={850}
-        xmin={TimeContext.timeRange.start}
-        xmax={TimeContext.timeRange.end}
-        style={{...chartSize}}
+        {...chartProps}
       />
       <FormControlLabel
         control={
