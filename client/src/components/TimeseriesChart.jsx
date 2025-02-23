@@ -22,13 +22,16 @@ export default function TimeseriesChart({
     title: {
       text: title
     },
-    tooltip: {
-      trigger: "axis"
-    },
     xAxis: {
       type: "time",
       min: xmin,
-      max: xmax
+      max: xmax,
+      axisPointer: {
+        snap: true,
+        lineStyle: {
+          type: 'solid'
+        }
+      }
     },
     yAxis: {
       type: "value",
@@ -44,7 +47,8 @@ export default function TimeseriesChart({
         opacity: seriesActivity[index]
       },
       showSymbol: false,
-      animation: false
+      animation: false,
+      cursor: 'default'
     })),
     dataZoom: [
       {
@@ -63,6 +67,9 @@ export default function TimeseriesChart({
         end: resetZoom ? 100 : undefined
       }
     ],
+    axisPointer: {
+      show: true
+    }
   };
 
   return (
