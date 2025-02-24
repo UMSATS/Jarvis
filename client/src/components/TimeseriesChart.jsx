@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 // Charts and props can be individually imported as well
 import ReactECharts from "echarts-for-react";
-import { Button, Box } from "@mui/material";
 
 export default function TimeseriesChart({ 
   dataset,
@@ -12,15 +11,21 @@ export default function TimeseriesChart({
   xmin = "dataMin", xmax = "dataMax",
   ymin = "dataMin", ymax = "dataMax",
 }) {
-  const [resetZoom, setResetZoom] = useState(false);
-
-  useEffect(() => {
-    if (resetZoom) setResetZoom(false);
-  }, [resetZoom]);
-
   const options = {
     title: {
       text: title
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'cross'
+      },
+      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+      position: function (pos, params, el, elRect, size) {
+        var obj = { top: 10 };
+        obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+        return obj;
+      }
     },
     xAxis: {
       type: "time",
@@ -49,46 +54,10 @@ export default function TimeseriesChart({
       showSymbol: false,
       animation: false,
       cursor: 'default'
-    })),
-    dataZoom: [
-      {
-        type: 'slider',
-        xAxisIndex: [0],
-        filterMode: 'none',
-        start: resetZoom ? 0 : undefined,
-        end: resetZoom ? 100 : undefined
-      },
-      {
-        type: 'slider',
-        yAxisIndex: [0],
-        filterMode: 'none',
-        showDataShadow: false,
-        start: resetZoom ? 0 : undefined,
-        end: resetZoom ? 100 : undefined
-      }
-    ],
-    axisPointer: {
-      show: true
-    }
+    }))
   };
 
   return (
-    <Box style={{
-      position: 'relative',
-      width: '100%', height: '100%',
-      ...style
-    }}>
-      <ReactECharts option={options} style={style} />
-      <Button onClick={() => setResetZoom(true)} 
-        style={{
-          position: 'absolute',
-          bottom: '5px',
-          right: '0',
-          padding: '8px 16px',
-        }}
-      >
-        RESET
-      </Button>
-    </Box>
+    <ReactECharts option={options} style={style} />
   );
 };
