@@ -16,15 +16,15 @@ const chartSize = {
 }
 
 export default function ExperimentTab() {
-  const TimeContext = useTimeContext();
+  const { timeRange } = useTimeContext();
 
   const [showInactiveWells, setShowInactiveWells] = useState(true);
 
   const chartProps = {
     labels: labels,
     seriesActivity: !showInactiveWells ? wellActivity : undefined,
-    xmin: TimeContext.timeRange.start,
-    xmax: TimeContext.timeRange.end,
+    xmin: timeRange.start,
+    xmax: timeRange.end,
     style: {...chartSize}
   }
 
