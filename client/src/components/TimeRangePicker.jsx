@@ -5,11 +5,11 @@ import '../styled-components/DateRangePicker.css';
 import { useTimeContext } from './TimeRangeContext';
 
 export default function TimeRangePicker() {
-    const TimeContext = useTimeContext();
+    const { timeRange, setTimeRange } = useTimeContext();
 
     const [range, setRange] = useState({
-        start: TimeContext.timeRange.start,
-        end: TimeContext.timeRange.end
+        start: timeRange.start,
+        end: timeRange.end
     });
 
     const onChange = (value) => {
@@ -29,11 +29,11 @@ export default function TimeRangePicker() {
     };
 
     useEffect(() => {
-        TimeContext.setTimeRange({
+        setTimeRange({
             start: range.start,
             end: range.end
         });
-    }, [range]);
+    }, [range, setTimeRange]);
 
     return (
         <DateRangePicker
