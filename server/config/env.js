@@ -13,31 +13,31 @@ const api_port = 5000;
 
 if(!db_url){
     console.error('DB_URL is not set');
-    process.exit(1);
+    throw new Error("Critical error occurred, shutting down.");
 }
 if(!db_username){
     console.error('DB_USER is not set');
-    process.exit(1);
+    throw new Error("Critical error occurred, shutting down.");
 }
 if(!db_password){
     console.error('DB_PASS is not set');
-    process.exit(1);
+    throw new Error("Critical error occurred, shutting down.");
 }
 if(!db_adminToken){
     console.error('DB_TOKEN is not set');
-    process.exit(1);
+    throw new Error("Critical error occurred, shutting down.");
 }
 if(!api_port){
     console.error('API_PORT is not set');
-    process.exit(1);
+    throw new Error("Critical error occurred, shutting down.");
 }
 if(!db_bucket){
     console.error('DB_BUCKET is not set');
-    process.exit(1);
+    throw new Error("Critical error occurred, shutting down.");
 }
 if(!db_org){
     console.error('DB_ORG is not set');
-    process.exit(1);
+    throw new Error("Critical error occurred, shutting down.");
 }
 
 module.exports = { db_url, db_username, db_password, db_adminToken, api_port, db_bucket, db_org };

@@ -18,7 +18,7 @@ async function dbInit(dbInstance = null){
 async function wellsInit(writeApiInstance){
     try{
         writeApiInstance.useDefaultTags({host: payloadTags});
-        for(i = 1; i <= 16; i++){
+        for(let i = 1; i <= 16; i++){
             const point = new Point('well temperature')
                 .tag('well', i)
                 .floatField('temp', 0)
