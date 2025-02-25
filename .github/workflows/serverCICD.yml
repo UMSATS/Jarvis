@@ -2,9 +2,9 @@ name: Backend Build
 
 on:
   push:
-    branches: [ "main", "dev", "feat/cicd"] # for testing
+    branches: [ "main", "dev" ]
   pull_request: 
-    branches: [ "main", "dev", "feat/cicd"] # for testing
+    branches: [ "main", "dev" ]
 
 jobs:
 
