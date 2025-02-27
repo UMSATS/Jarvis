@@ -53,8 +53,11 @@ export default function TimeseriesChart({
       },
       showSymbol: false,
       animation: false,
-      cursor: 'default'
-    }))
+      silent: true
+    })),
+    grid: {
+      left: "1%"
+    }
   };
 
   return (
