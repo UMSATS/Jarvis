@@ -22,10 +22,8 @@ export default function Header(){
                     </styles.SidebarButton>
                     {LayoutContext.selectedTabName}
                 </styles.HeaderLeftBox>
-                <styles.HeaderCenterBox>
-                    <TimeRangePicker />
-                </styles.HeaderCenterBox>
                 <styles.HeaderRightBox>
+                    <TimeRangePicker />
 					<Link to="/login" style={{ textDecoration: 'none'}}>
 						<Button
 							sx={{
