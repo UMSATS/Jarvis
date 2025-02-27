@@ -10,14 +10,6 @@ export const HeaderLeftBox = styled(Box)(() => ({
     fontFamily: 'Arial, sans-serif',
 }));
 
-export const HeaderCenterBox = styled(Box)(() => ({
-    display: 'flex',
-    justifyContent: 'flex-end',
-    left: '50%',
-    position: 'absolute',
-    transform: 'translateX(-50%)'
-}));
-
 export const HeaderRightBox = styled(Box)(() => ({
     display: 'flex',
     width: 'fit-content',

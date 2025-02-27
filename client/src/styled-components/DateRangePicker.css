@@ -1,3 +1,9 @@
 .rs-picker-popup {
 	z-index: 9999;
 }
+
+.rs-calendar-table-cell-disabled
+.rs-calendar-table-cell-content {
+	color: #885555;
+	text-decoration: none;
+}
