@@ -9,15 +9,21 @@ const { json } = require('express');
  * @brief This file contains the functions to fetch payload related measurements
  */
 
+// Tag for the payload
 const payloadTags = 'Payload';
-const wellsMeasurementsTag = 'well temperature';
-const wellsMeasurementsField = 'temp';
+// Tag for the wells measurements
+const wellsMeasurementsTag = 'well';
+// Fields for the wells measurements
+const wellsMeasurementsFields = {
+    temperature: 'temp',
+    luminosity: 'lumin'
+}
 
-async function wellsMeasurements(wellNum, period){
+async function wellsMeasurements(wellNum, period, field) {
     const query = `from(bucket: "${db_bucket}")
         |> range(start: -${period})
         |> filter(fn: (r) => r["_measurement"] == "${wellsMeasurementsTag}")
-        |> filter(fn: (r) => r["_field"] == "${wellsMeasurementsField}")
+        |> filter(fn: (r) => r["_field"] == "${field}")
         |> filter(fn: (r) => r["host"] == "${payloadTags}")
         |> filter(fn: (r) => r["well"] == "${wellNum}")
         |> keep(columns: ["_time", "_value", "well"])`;
@@ -38,4 +44,4 @@ async function wellsMeasurements(wellNum, period){
     });
 }
 
-module.exports = { wellsMeasurements, payloadTags };
+module.exports = { wellsMeasurements, payloadTags, wellsMeasurementsTag, wellsMeasurementsFields };

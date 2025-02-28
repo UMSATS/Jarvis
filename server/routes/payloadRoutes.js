@@ -8,7 +8,18 @@ const router = express.Router();
  * @brief This file contains the routes for the payload API
  */
 
-// getting well temperature data
+/**
+ * @brief This route is used to get the temperature data of a well
+ * @param wellNum The well number
+ * @query period The period of time to get the data
+ */
 router.route('/wells/temp/:wellNum').get(payloadController.wellsTemperature);
+
+/**
+ * @brief This route is used to get the luminosity data of a well
+ * @param wellNum The well number
+ * @query period The period of time to get the data
+ */
+router.route('/wells/lumin/:wellNum').get(payloadController.wellsLuminosity);
 
 module.exports = router;
