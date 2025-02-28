@@ -30,6 +30,10 @@ def parsePeriod(period: str) -> datetime:
     else:
         return timedelta(0)
 
+def insertDataIntoWell(measurement: str, well: int, field: str, data: float, time: datetime, host: str, write_api, bucket: str, org: str):
+    point = Point(measurement).tag("well", well).field(field, data).time(time, WritePrecision.NS).tag("host", host)
+    write_api.write(bucket, org, point)
+
 class TelemetryInputCli(cmd.Cmd):
     url = config.get('URL')
     bucket = config.get('DB_BUCKET')
@@ -58,8 +62,7 @@ class TelemetryInputCli(cmd.Cmd):
             print("Invalid input")
             return
         for well in range(1, 17):
-            point = Point('well temperature').tag("well", well).field("temp", data).time(calculatedTime, WritePrecision.NS).tag("host", self.payloadTag)
-            self.write_api.write(self.bucket, self.org, point)
+            insertDataIntoWell('well temperature', well, 'temp', data, calculatedTime, self.payloadTag, self.write_api, self.bucket, self.org)
         print("Data inserted successfully")
     
     def do_insert_well(self, arg):
@@ -81,8 +84,7 @@ class TelemetryInputCli(cmd.Cmd):
         except ValueError:
             print("Invalid input")
             return
-        point = Point('well temperature').tag("well", well).field("temp", data).time(calculatedTime, WritePrecision.NS).tag("host", self.payloadTag)
-        self.write_api.write(self.bucket, self.org, point)
+        insertDataIntoWell('well temperature', well, 'temp', data, calculatedTime, self.payloadTag, self.write_api, self.bucket, self.org)
         print("Data inserted successfully")
 
 if __name__ == '__main__':
