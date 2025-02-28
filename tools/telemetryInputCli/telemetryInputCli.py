@@ -4,9 +4,11 @@ from influxdb_client import InfluxDBClient, Point, WritePrecision
 from influxdb_client.client.write_api import SYNCHRONOUS
 from dotenv import load_dotenv, dotenv_values
 
+# Load environment variables
 load_dotenv()
 config = dotenv_values(".env")
 
+# ask for period of time
 def askingForPeriod() -> str:
     period = input("Please enter the period (digit)(h/d/w/m): ")
     if period[-1] not in ['h', 'd', 'w', 'm']:
@@ -17,6 +19,7 @@ def askingForPeriod() -> str:
         return askingForPeriod()
     return period
 
+# parse period of time
 def parsePeriod(period: str) -> datetime:
     period = period.lower()
     if period[-1] == 'h':
@@ -30,11 +33,13 @@ def parsePeriod(period: str) -> datetime:
     else:
         return timedelta(0)
 
+# insert data into well
 def insertDataIntoWell(well: int, field: str, data: float, time: datetime, host: str, write_api, bucket: str, org: str):
     point = Point("well").tag("well", well).field(field, data).time(time, WritePrecision.NS).tag("host", host)
     write_api.write(bucket, org, point)
 
 class TelemetryInputCli(cmd.Cmd):
+    # Set up the CLI
     url = config.get('URL')
     bucket = config.get('DB_BUCKET')
     org = config.get('DB_ORG')
@@ -42,64 +47,84 @@ class TelemetryInputCli(cmd.Cmd):
     password = config.get('DB_PASSWORD')
     token = config.get('DB_TOKEN')
     payloadTag = config.get('PAYLOAD_TAG')
+    wellTempField = config.get('WELL_TEMP_FIELD')
+    wellLuminField = config.get('WELL_LUMIN_FIELD')
     client = InfluxDBClient(url=url, token=token, org=org)
     write_api = client.write_api(write_options=SYNCHRONOUS)
     prompt = '> '
     intro = 'Welcome to the Telemetry Input CLI. Type help or ? to list commands.\n'
 
+    # exit the CLI
     def do_exit(self, arg):
         'Exit the CLI'
         return True
     
+    # insert temperature data into all wells with specified time
     def do_insert_temp_wells(self, arg):
-        'Insert data into all wells with current time'
+        'Insert temperature data into all wells with specified time'
+        self.insert_data_into_wells(self.wellTempField)
+
+    # insert temperature data into a specific well with specified time
+    def do_insert_temp_well(self, arg):
+        'Insert temperature data into a specific well with specified time'
+        self.insert_data_into_well(self.wellTempField)
+
+    # insert humidity data into all wells with specified time
+    def do_insert_lumin_wells(self, arg):
+        'Insert luminance data into all wells with specified time'
+        self.insert_data_into_wells(self.wellLuminField)
+
+    # insert humidity data into a specific well with specified time
+    def do_insert_lumin_well(self, arg):
+        'Insert luminance data into a specific well with specified time'
+        self.insert_data_into_well(self.wellLuminField)
+
+    # helper function to insert data into all wells
+    def insert_data_into_wells(self, field):
         period = askingForPeriod()
-        calculatedTime: datetime = datetime.now(timezone.utc) - parsePeriod(period)
-        print("Please enter the data you want to insert: ")
-        try:
-            data = float(input())
-        except ValueError:
-            print("Invalid input")
+        calculatedTime = datetime.now(timezone.utc) - parsePeriod(period)
+        data = self.get_data_from_user()
+        if data is None:
             return
         for well in range(1, 17):
-            insertDataIntoWell(well, 'temp', data, calculatedTime, self.payloadTag, self.write_api, self.bucket, self.org)
+            insertDataIntoWell(well, field, data, calculatedTime, self.payloadTag, self.write_api, self.bucket, self.org)
         print("Data inserted successfully")
-    
-    def do_insert_temp_well(self, arg):
-        'Insert data into a specific well with current time'
+
+    # helper function to insert data into a specific well
+    def insert_data_into_well(self, field):
         period = askingForPeriod()
-        calculatedTime: datetime = datetime.now(timezone.utc) - parsePeriod(period)
+        calculatedTime = datetime.now(timezone.utc) - parsePeriod(period)
+        well = self.get_well_number_from_user()
+        if well is None:
+            return
+        data = self.get_data_from_user()
+        if data is None:
+            return
+        insertDataIntoWell(well, field, data, calculatedTime, self.payloadTag, self.write_api, self.bucket, self.org)
+        print("Data inserted successfully")
+
+    # helper function to get data from user
+    def get_data_from_user(self):
+        print("Please enter the data you want to insert: ")
+        try:
+            return float(input())
+        except ValueError:
+            print("Invalid input")
+            return None
+
+    # helper function to get well number from user
+    def get_well_number_from_user(self):
         print("Please enter the well number (1-16): ")
         try:
             well = int(input())
-            if well < 1 or well > 16:
+            if 1 <= well <= 16:
+                return well
+            else:
                 print("Invalid well number")
-                return
+                return None
         except ValueError:
             print("Invalid input")
-            return
-        print("Please enter the data you want to insert: ")
-        try:
-            data = float(input())
-        except ValueError:
-            print("Invalid input")
-            return
-        insertDataIntoWell(well, 'temp', data, calculatedTime, self.payloadTag, self.write_api, self.bucket, self.org)
-        print("Data inserted successfully")
-    
-    def do_insert_lumin_wells(self, arg):
-        'Insert data into all wells with current time'
-        period = askingForPeriod()
-        calculatedTime: datetime = datetime.now(timezone.utc) - parsePeriod(period)
-        print("Please enter the data you want to insert: ")
-        try:
-            data = float(input())
-        except ValueError:
-            print("Invalid input")
-            return
-        for well in range(1, 17):
-            insertDataIntoWell(well, 'lumin', data, calculatedTime, self.payloadTag, self.write_api, self.bucket, self.org)
-        print("Data inserted successfully")
+            return None
 
 if __name__ == '__main__':
     TelemetryInputCli().cmdloop()
