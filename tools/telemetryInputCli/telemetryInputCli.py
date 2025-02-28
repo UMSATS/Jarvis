@@ -30,8 +30,8 @@ def parsePeriod(period: str) -> datetime:
     else:
         return timedelta(0)
 
-def insertDataIntoWell(measurement: str, well: int, field: str, data: float, time: datetime, host: str, write_api, bucket: str, org: str):
-    point = Point(measurement).tag("well", well).field(field, data).time(time, WritePrecision.NS).tag("host", host)
+def insertDataIntoWell(well: int, field: str, data: float, time: datetime, host: str, write_api, bucket: str, org: str):
+    point = Point("well").tag("well", well).field(field, data).time(time, WritePrecision.NS).tag("host", host)
     write_api.write(bucket, org, point)
 
 class TelemetryInputCli(cmd.Cmd):
@@ -51,7 +51,7 @@ class TelemetryInputCli(cmd.Cmd):
         'Exit the CLI'
         return True
     
-    def do_insert_wells(self, arg):
+    def do_insert_temp_wells(self, arg):
         'Insert data into all wells with current time'
         period = askingForPeriod()
         calculatedTime: datetime = datetime.now(timezone.utc) - parsePeriod(period)
@@ -62,10 +62,10 @@ class TelemetryInputCli(cmd.Cmd):
             print("Invalid input")
             return
         for well in range(1, 17):
-            insertDataIntoWell('well temperature', well, 'temp', data, calculatedTime, self.payloadTag, self.write_api, self.bucket, self.org)
+            insertDataIntoWell(well, 'temp', data, calculatedTime, self.payloadTag, self.write_api, self.bucket, self.org)
         print("Data inserted successfully")
     
-    def do_insert_well(self, arg):
+    def do_insert_temp_well(self, arg):
         'Insert data into a specific well with current time'
         period = askingForPeriod()
         calculatedTime: datetime = datetime.now(timezone.utc) - parsePeriod(period)
@@ -84,7 +84,21 @@ class TelemetryInputCli(cmd.Cmd):
         except ValueError:
             print("Invalid input")
             return
-        insertDataIntoWell('well temperature', well, 'temp', data, calculatedTime, self.payloadTag, self.write_api, self.bucket, self.org)
+        insertDataIntoWell(well, 'temp', data, calculatedTime, self.payloadTag, self.write_api, self.bucket, self.org)
+        print("Data inserted successfully")
+    
+    def do_insert_lumin_wells(self, arg):
+        'Insert data into all wells with current time'
+        period = askingForPeriod()
+        calculatedTime: datetime = datetime.now(timezone.utc) - parsePeriod(period)
+        print("Please enter the data you want to insert: ")
+        try:
+            data = float(input())
+        except ValueError:
+            print("Invalid input")
+            return
+        for well in range(1, 17):
+            insertDataIntoWell(well, 'lumin', data, calculatedTime, self.payloadTag, self.write_api, self.bucket, self.org)
         print("Data inserted successfully")
 
 if __name__ == '__main__':
