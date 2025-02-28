@@ -1,4 +1,3 @@
-const express = require('express');
 const wellsMeasurements = require('../measurements/payloadMeasurements');
 const { logInfoMsgPrefix, logWarnMsgPrefix, logErrorMsgPrefix } = require('../utils/utils');
 
