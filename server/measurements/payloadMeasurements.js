@@ -10,7 +10,7 @@ const { json } = require('express');
  */
 
 const payloadTags = 'Payload';
-const wellsMeasurementsTag = 'well temperature';
+const wellsMeasurementsTag = 'well';
 const wellsMeasurementsField = 'temp';
 
 async function wellsMeasurements(wellNum, period){
