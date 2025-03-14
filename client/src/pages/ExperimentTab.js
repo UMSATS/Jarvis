@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  temperatureData, luminosityData, labels, wellActivity
+  labels, wellActivity
 } from '../components/ExperimentData.jsx';
+import { useQuery } from '@tanstack/react-query';
+import { fetchExperiment } from '../api/experiment.js';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import TimeseriesChart from '../components/TimeseriesChart.jsx';
 import { useTimeContext } from "../components/TimeRangeContext.jsx";
+
+const MAX_PERIOD = "24h";
 
 const CHART_WIDTH = 800;
 
@@ -18,7 +22,28 @@ const chartSize = {
 export default function ExperimentTab() {
   const { timeRange } = useTimeContext();
 
+  const [temperatureData, setTemperatureData] = useState([]);
+  const [luminosityData, setLuminosityData] = useState([]);
+
   const [showInactiveWells, setShowInactiveWells] = useState(true);
+
+  const { data, isError, error } = useQuery({
+    queryKey: ['experiment', MAX_PERIOD],
+    queryFn: () => fetchExperiment(MAX_PERIOD)
+  });
+
+  if (isError) console.log(error.message);
+
+  useEffect(() => {
+    if (data) {
+      if (data.temperature) {
+        setTemperatureData(data.temperature);
+      }
+      if (data.luminosity) {
+        setLuminosityData(data.luminosity);
+      }
+    }
+  }, [data]);
 
   const chartProps = {
     labels: labels,

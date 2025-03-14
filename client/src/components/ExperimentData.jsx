@@ -15,7 +15,10 @@ export const luminosityData = Array.from({ length: 4 }, () =>
 );
 
 export const wellActivity = [
+  1, 1, 0, 1, 
+  1, 1, 0, 1,
+  1, 1, 0, 1,
   1, 1, 0, 1
 ]
 
-export const labels = Array.from({length: 4}, (_, i) => `Well ${i + 1}`)
+export const labels = Array.from({length: 16}, (_, i) => `Well ${i + 1}`)
