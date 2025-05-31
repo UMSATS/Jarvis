@@ -11,14 +11,16 @@ const router = express.Router();
 /**
  * @brief This route is used to get the temperature data of a well
  * @param wellNum The well number
- * @query period The period of time to get the data
+ * @query start The start time of the period to get the data
+ * @query end The end time of the period to get the data
  */
 router.route('/wells/temp/:wellNum').get(payloadController.wellsTemperature);
 
 /**
  * @brief This route is used to get the luminosity data of a well
  * @param wellNum The well number
- * @query period The period of time to get the data
+ * @query start The start time of the period to get the data
+ * @query end The end time of the period to get the data
  */
 router.route('/wells/lumin/:wellNum').get(payloadController.wellsLuminosity);
 
