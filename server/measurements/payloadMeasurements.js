@@ -19,9 +19,9 @@ const wellsMeasurementsFields = {
     luminosity: 'lumin'
 }
 
-async function wellsMeasurements(wellNum, period, field) {
+async function wellsMeasurements(wellNum, start, end, field) {
     const query = `from(bucket: "${db_bucket}")
-        |> range(start: -${period})
+        |> range(start: ${start}, stop: ${end})
         |> filter(fn: (r) => r["_measurement"] == "${wellsMeasurementsTag}")
         |> filter(fn: (r) => r["_field"] == "${field}")
         |> filter(fn: (r) => r["host"] == "${payloadTags}")
