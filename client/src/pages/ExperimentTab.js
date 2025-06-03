@@ -10,8 +10,6 @@ import Switch from '@mui/material/Switch';
 import TimeseriesChart from '../components/TimeseriesChart.jsx';
 import { useTimeContext } from "../components/TimeRangeContext.jsx";
 
-const MAX_PERIOD = "24h";
-
 const CHART_WIDTH = 800;
 
 const chartSize = {
@@ -28,8 +26,8 @@ export default function ExperimentTab() {
   const [showInactiveWells, setShowInactiveWells] = useState(true);
 
   const { data, isError, error } = useQuery({
-    queryKey: ['experiment', MAX_PERIOD],
-    queryFn: () => fetchExperiment(MAX_PERIOD)
+    queryKey: ['experiment', timeRange.start, timeRange.end],
+    queryFn: () => fetchExperiment(timeRange.start, timeRange.end)
   });
 
   if (isError) console.log(error.message);
