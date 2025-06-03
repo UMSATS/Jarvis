@@ -4,10 +4,10 @@ import { Canvas } from '@react-three/fiber';
 import { useLoader } from '@react-three/fiber';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 
-export default function View({ timestamp, rotationData }) {
+export default function View({ timestamp, orientationData }) {
     return (
         <Canvas>
-            <SatelliteModel timestamp={timestamp} rotations={rotationData}/>
+            <SatelliteModel timestamp={timestamp} orientations={orientationData}/>
             {/* Lighting needs an improvement */}
             <ambientLight intensity={Math.PI / 2} />
             <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
@@ -15,7 +15,7 @@ export default function View({ timestamp, rotationData }) {
     )
 }
 
-function SatelliteModel({ timestamp, rotations }) {
+function SatelliteModel({ timestamp, orientations }) {
     const model = useLoader(STLLoader, "/TSAT-7_MODEL.STL");
 
     // Orients the basis axes of the mesh for better visualization
@@ -24,27 +24,13 @@ function SatelliteModel({ timestamp, rotations }) {
     const basisEuler = new THREE.Euler(...ORIENTATION_OFFSET)
     const basisQuaternion = new THREE.Quaternion().setFromEuler(basisEuler);
 
-    /* 
-    This performs every rotation whenever the timestamp changes -
-    it might get slow when there is a realistic number of timestamps.
-    */
-    const newOrientation = basisQuaternion.clone()
-    for (let i = 0; i <= timestamp; i++) {
-        const rotation = new THREE.Quaternion(
-            rotations[i][0],
-            rotations[i][1],
-            rotations[i][2],
-            rotations[i][3]
-        )
-        newOrientation.multiply(rotation).normalize();
-    }
-
-    const orientation = new THREE.Euler().setFromQuaternion(newOrientation);
+    const orientation = orientations[timestamp];
+    const orientationWithOffset = basisQuaternion.clone().multiply(orientation).normalize();
 
     return (
         <>
             <mesh 
-                rotation={orientation}
+                quaternion={orientationWithOffset}
                 // This scale should be applied to the STL directly
                 scale={[0.7, 0.7, 0.7]}
             >

@@ -1,7 +1,7 @@
 import React from 'react';
 import View from '../components/OrientationView.jsx';
 import OrientationControls from '../components/OrientationControls.jsx';
-import { timestamps, rotationData } from '../components/OrientationData.jsx';
+import { timestamps, orientationData } from '../components/OrientationData.jsx';
 
 export default function OrientationTab() {
   const defaultTimestamp = timestamps[timestamps.length - 1];
@@ -10,7 +10,7 @@ export default function OrientationTab() {
       <OrientationControls 
         defaultTimestamp={defaultTimestamp}
         view={(controls) => (
-          <View {...controls} rotationData={rotationData} />
+          <View {...controls} orientationData={orientationData} />
         )
       } />
     </div>
