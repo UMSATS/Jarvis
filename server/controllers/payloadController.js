@@ -46,6 +46,16 @@ const getWellData = async (req, res, field) => {
             res.status(400).json({ error: 'Invalid date format provided, must be in RFC3339 format' });
             return;
         }
+    
+        // convert start and end to Date objects to validate
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+        // end date must be after start date
+        if (endDate <= startDate) {
+            console.log(logWarnMsgPrefix(`End date must be after start date: start=${start}, end=${end}`));
+            res.status(400).json({ error: 'End date must be after start date' });
+            return;
+        }
     }
 
     try {
