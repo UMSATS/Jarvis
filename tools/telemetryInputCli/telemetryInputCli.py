@@ -1,9 +1,8 @@
 import cmd
 import pandas as pd
-import json
 import os
 import yaml
-from typing import List, Tuple, Dict
+from typing import List, Dict
 from datetime import datetime, timezone, timedelta
 from influxdb_client import InfluxDBClient, Point, WritePrecision
 from influxdb_client.client.write_api import SYNCHRONOUS
