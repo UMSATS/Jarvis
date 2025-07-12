@@ -26,7 +26,7 @@
 
 ### .env file
 
-The script reuires a file called '.env' with the following format:
+The script requires a file called '.env' with the following format:
 
 ```env
 URL = <your URL>
@@ -46,13 +46,13 @@ The script's bulk insert function requires a `config.yaml` to externally store t
 tables: # for read the data frame file
   - name: temp # need to match the field name in .env and influx table
     columns:
-      - timestamp
+      - timestamp # UNIX timestamp
       - well_num
       - temperature
 
   - name: lumin
     columns:
-      - timestamp
+      - timestamp # UNIX timestamp
       - well_num
       - luminosity
 ```

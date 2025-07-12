@@ -13,12 +13,10 @@ CONFIG_FILE = 'config.yaml'
 # Load environment variables
 load_dotenv()
 env = dotenv_values(".env")
-# load configuration from YAML file
-df_config = List[str]
 
-def load_table_configs() -> Dict[str, df_config]:
+def load_table_configs() -> Dict[str, List[str]]:
     raw = yaml.safe_load(open(CONFIG_FILE, 'r'))
-    table_configs: Dict[str, df_config] = {}
+    table_configs: Dict[str, List[str]] = {}
     for entry in raw["tables"]:
         name = entry["name"]
         columns = entry["columns"]
@@ -29,7 +27,7 @@ def load_table_configs() -> Dict[str, df_config]:
     return table_configs
 
 # convert unix timestamp to datetime
-def convert_unix_to_datetime(unix_timestamp: int) -> datetime:
+def convert_unix_to_datetime(unix_timestamp: int):
     if unix_timestamp < 0:
         print(f"Invalid unix timestamp: {unix_timestamp}")
         return None
@@ -186,13 +184,13 @@ class TelemetryInputCli(cmd.Cmd):
             print("No timestamp column found in the data.")
             return
         # insert data into influxdb
-        if table == "temp" or table == "lumin":
+        if table == self.wellTempField or table == self.wellLuminField:
             for index, row in df.iterrows():
                 well_num = row.get('well_num')
                 if pd.notnull(well_num) and 1 <= well_num <= 16:
                     time = row.get('timestamp')
                     if time is not None:
-                        data = row.get('temperature') if table == "temp" else row.get('luminosity')
+                        data = row.get('temperature') if table == self.wellTempField else row.get('luminosity')
                         if pd.notnull(data):
                             insertDataIntoWell(well_num, table, data, time, self.payloadTag, self.write_api, self.bucket, self.org)
                 else:
