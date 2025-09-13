@@ -62,7 +62,7 @@ export default function ExperimentTab() {
       <TimeseriesChart 
         title="Luminosity (lm)"
         dataset={luminosityData}
-        ymin={550} ymax={850}
+        ymin={100} ymax={900}
         {...chartProps}
       />
       <FormControlLabel
