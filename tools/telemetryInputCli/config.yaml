@@ -1,0 +1,12 @@
+tables: # for read the data frame file
+  - name: temp # need to match the field name in .env and influx table
+    columns:
+      - timestamp
+      - well_num
+      - temperature
+
+  - name: lumin
+    columns:
+      - timestamp
+      - well_num
+      - luminosity

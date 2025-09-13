@@ -1,12 +1,37 @@
 import cmd
+import pandas as pd
+import os
+import yaml
+from typing import List, Dict
 from datetime import datetime, timezone, timedelta
 from influxdb_client import InfluxDBClient, Point, WritePrecision
 from influxdb_client.client.write_api import SYNCHRONOUS
 from dotenv import load_dotenv, dotenv_values
 
+CONFIG_FILE = 'config.yaml'
+
 # Load environment variables
 load_dotenv()
-config = dotenv_values(".env")
+env = dotenv_values(".env")
+
+def load_table_configs() -> Dict[str, List[str]]:
+    raw = yaml.safe_load(open(CONFIG_FILE, 'r'))
+    table_configs: Dict[str, List[str]] = {}
+    for entry in raw["tables"]:
+        name = entry["name"]
+        columns = entry["columns"]
+        if not isinstance(columns, list):
+            print(f"Invalid columns for table {name}. Expected a list, got {type(columns)}")
+            continue
+        table_configs[name] = (columns)
+    return table_configs
+
+# convert unix timestamp to datetime
+def convert_unix_to_datetime(unix_timestamp: int):
+    if unix_timestamp < 0:
+        print(f"Invalid unix timestamp: {unix_timestamp}")
+        return None
+    return datetime.fromtimestamp(unix_timestamp, tz=timezone.utc)
 
 # ask for period of time
 def askingForPeriod() -> str:
@@ -38,17 +63,30 @@ def insertDataIntoWell(well: int, field: str, data: float, time: datetime, host:
     point = Point("well").tag("well", well).field(field, data).time(time, WritePrecision.NS).tag("host", host)
     write_api.write(bucket, org, point)
 
+# ask for file path
+def askingForFilePath() -> str:
+    path = input("Please enter the file path: ")
+    if not path:
+        print("Invalid file path")
+        return None
+    if not os.path.exists(path):
+        print("File does not exist")
+        return None
+    return path
+
 class TelemetryInputCli(cmd.Cmd):
+    # load up config file
+    table_configs = load_table_configs()
     # Set up the CLI
-    url = config.get('URL')
-    bucket = config.get('DB_BUCKET')
-    org = config.get('DB_ORG')
-    user = config.get('DB_USER')
-    password = config.get('DB_PASSWORD')
-    token = config.get('DB_TOKEN')
-    payloadTag = config.get('PAYLOAD_TAG')
-    wellTempField = config.get('WELL_TEMP_FIELD')
-    wellLuminField = config.get('WELL_LUMIN_FIELD')
+    url = env.get('URL')
+    bucket = env.get('DB_BUCKET')
+    org = env.get('DB_ORG')
+    user = env.get('DB_USER')
+    password = env.get('DB_PASSWORD')
+    token = env.get('DB_TOKEN')
+    payloadTag = env.get('PAYLOAD_TAG')
+    wellTempField = env.get('WELL_TEMP_FIELD')
+    wellLuminField = env.get('WELL_LUMIN_FIELD')
     client = InfluxDBClient(url=url, token=token, org=org)
     write_api = client.write_api(write_options=SYNCHRONOUS)
     prompt = '> '
@@ -69,15 +107,33 @@ class TelemetryInputCli(cmd.Cmd):
         'Insert temperature data into a specific well with specified time'
         self.insert_data_into_well(self.wellTempField)
 
-    # insert humidity data into all wells with specified time
+    # insert luminosity data into all wells with specified time
     def do_insert_lumin_wells(self, arg):
-        'Insert luminance data into all wells with specified time'
+        'Insert luminosity data into all wells with specified time'
         self.insert_data_into_wells(self.wellLuminField)
 
-    # insert humidity data into a specific well with specified time
+    # insert luminosity data into a specific well with specified time
     def do_insert_lumin_well(self, arg):
-        'Insert luminance data into a specific well with specified time'
+        'Insert luminosity data into a specific well with specified time'
         self.insert_data_into_well(self.wellLuminField)
+
+    def do_bulk_insert(self, arg):
+        'Bulk insert data from a CSV file into the specified table'
+        # print out available option from table_configs
+        if not self.table_configs:
+            print("No tables available for bulk insert.")
+            return
+        print("Available tables for bulk insert:")
+        for table in self.table_configs.keys():
+            print(f"- {table}")
+        table = input("Please enter the table name: ")
+        if table not in self.table_configs:
+            print(f"Table {table} does not exist.")
+            return
+        filePath = askingForFilePath()
+        if not filePath:
+            return
+        self.insert_data_from_df(table, filePath)
 
     # helper function to insert data into all wells
     def insert_data_into_wells(self, field):
@@ -102,6 +158,47 @@ class TelemetryInputCli(cmd.Cmd):
             return
         insertDataIntoWell(well, field, data, calculatedTime, self.payloadTag, self.write_api, self.bucket, self.org)
         print("Data inserted successfully")
+    
+    # bulk insert data into bucket
+    def insert_data_from_df(self, table:str, filePath:str):
+        if not filePath:
+            return
+        if filePath.endswith('.csv'):
+            try:
+                df = pd.read_csv(filePath, usecols=self.table_configs[table])
+            except ValueError as e:
+                print(f"Error reading CSV file: {e}")
+                return
+        else:
+            print("Unsupported file format. Please provide a CSV file.")
+            return
+        # print out record
+        print(f"Loading {len(df)} records from {filePath} for table {table}.")
+        if df.empty:
+            print("No data to insert.")
+            return
+        # convert unix timestamp to datetime
+        if 'timestamp' in df.columns:
+            df['timestamp'] = df['timestamp'].apply(lambda x: convert_unix_to_datetime(x) if pd.notnull(x) else None)
+        else:
+            print("No timestamp column found in the data.")
+            return
+        # insert data into influxdb
+        if table == self.wellTempField or table == self.wellLuminField:
+            for index, row in df.iterrows():
+                well_num = row.get('well_num')
+                if pd.notnull(well_num) and 1 <= well_num <= 16:
+                    time = row.get('timestamp')
+                    if time is not None:
+                        data = row.get('temperature') if table == self.wellTempField else row.get('luminosity')
+                        if pd.notnull(data):
+                            insertDataIntoWell(well_num, table, data, time, self.payloadTag, self.write_api, self.bucket, self.org)
+                else:
+                    print(f"Invalid well number {well_num} at index {index}. Skipping this record.")
+        else:
+            print(f"Unsupported table {table}. Only 'temp' and 'lumin' are supported for bulk insert.")
+            return
+        print(f"Data from {filePath} inserted into {table} table successfully.")
 
     # helper function to get data from user
     def get_data_from_user(self):
