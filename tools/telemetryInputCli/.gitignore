@@ -1,1 +1,4 @@
 *.csv
+
+!examples/data_temp.csv
+!examples/data_lumin.csv
