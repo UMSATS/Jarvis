@@ -1,7 +1,10 @@
+// API functions for the Experiment tab
+
 import { fetchData } from './api';
 
 const NUMBER_OF_WELLS = 16;
 
+// Queries all wells for either temperature or luminosity
 const queryAllWells = async (start, end, key) => {
     let endpoint = `/payload/wells`
     
@@ -21,6 +24,7 @@ const queryAllWells = async (start, end, key) => {
     );
 };
 
+// Returns both temperature and luminosity data
 export const fetchExperiment = async (start, end) => {
     const [temperature, luminosity] = await Promise.all([
         queryAllWells(start, end, 'temperature'),

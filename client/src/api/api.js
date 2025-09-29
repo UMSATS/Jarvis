@@ -1,3 +1,4 @@
+// A general asynchronous function to fetch data from an endpoint
 export const fetchData = async (endpoint) => {
     try {
         const response = await fetch(endpoint);
