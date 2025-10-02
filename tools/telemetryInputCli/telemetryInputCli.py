@@ -38,6 +38,11 @@ def insertDataIntoWell(well: int, field: str, data: float, time: datetime, host:
     point = Point("well").tag("well", well).field(field, data).time(time, WritePrecision.NS).tag("host", host)
     write_api.write(bucket, org, point)
 
+# insert data into magnetic field
+def insertDataIntoMagField(variant: int, lsb: float, x: float, y: float, z: float, time: datetime, host: str, write_api, bucket: str, org: str):
+    point = Point("magField").tag("variant", variant).field("LSB", lsb).field("X", x).field("Y", y).field("Z", z).time(time, WritePrecision.NS).tag("host", host)
+    write_api.write(bucket, org, point)
+
 class TelemetryInputCli(cmd.Cmd):
     # Set up the CLI
     url = config.get('URL')
@@ -49,6 +54,8 @@ class TelemetryInputCli(cmd.Cmd):
     payloadTag = config.get('PAYLOAD_TAG')
     wellTempField = config.get('WELL_TEMP_FIELD')
     wellLuminField = config.get('WELL_LUMIN_FIELD')
+    adcsTag = config.get('ADCS_TAG')
+    magField = config.get('MAG_FIELD')
     client = InfluxDBClient(url=url, token=token, org=org)
     write_api = client.write_api(write_options=SYNCHRONOUS)
     prompt = '> '
@@ -79,6 +86,11 @@ class TelemetryInputCli(cmd.Cmd):
         'Insert luminance data into a specific well with specified time'
         self.insert_data_into_well(self.wellLuminField)
 
+    # insert magnetic field data with specified time
+    def do_insert_mag_field(self, arg):
+        'Insert magnetic field data with specified time'
+        self.insert_data_into_mag_field(self.magField)
+
     # helper function to insert data into all wells
     def insert_data_into_wells(self, field):
         period = askingForPeriod()
@@ -102,6 +114,19 @@ class TelemetryInputCli(cmd.Cmd):
             return
         insertDataIntoWell(well, field, data, calculatedTime, self.payloadTag, self.write_api, self.bucket, self.org)
         print("Data inserted successfully")
+
+    # helper function to insert magnetic field data
+    def insert_data_into_mag_field(self, field):
+        period = askingForPeriod()
+        calculatedTime = datetime.now(timezone.utc) - parsePeriod(period)
+        variant = int(input("Please enter the variant number: ")) # TODO: should be limited to 2
+        lsb = float(input("Please enter the LSB value: "))
+        x = float(input("Please enter the X value: "))
+        y = float(input("Please enter the Y value: "))
+        z = float(input("Please enter the Z value: "))
+
+        insertDataIntoMagField(variant, lsb, x, y, z, calculatedTime, self.adcsTag, self.write_api, self.bucket, self.org)
+        print("Magnetic field data inserted successfully")
 
     # helper function to get data from user
     def get_data_from_user(self):
