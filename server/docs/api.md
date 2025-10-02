@@ -37,3 +37,41 @@
     - end
       - end time of the query range
       - must in seconds-only RFC3339 date format
+
+### ADCS
+
+#### Magnetic Field
+
+- /adcs/magf/{:variant number}?{start}&{end}
+  - must have start and end query parameters with seconds-only RFC3339 date format (no fractional seconds)
+  - will return magnetic field telemetry of the given period
+    - includes:
+      - XYZ LSBs (00XXYYZZ)
+      - X-value MSB
+      - Y-value MSB
+      - Z-value MSB
+  - query parameters
+    - start
+      - start time of the query range
+      - must in seconds-only RFC3339 date format
+    - end
+      - end time of the query range
+      - must in seconds-only RFC3339 date format
+
+#### Angular Velocity
+
+- /adcs/angv/{:variant number}?{start}&{end}
+  - must have start and end query parameters with seconds-only RFC3339 date format (no fractional seconds)
+  - will return angular velocity telemetry of the given period
+    - includes:
+      - X-value
+      - Y-value
+      - Z-value
+  - query parameters
+    - start
+      - start time of the query range
+      - must in seconds-only RFC3339 date format
+    - end
+      - end time of the query range
+      - must in seconds-only RFC3339 date format
+      

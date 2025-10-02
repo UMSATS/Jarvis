@@ -200,6 +200,19 @@ class TelemetryInputCli(cmd.Cmd):
             return
         print(f"Data from {filePath} inserted into {table} table successfully.")
 
+    # helper function to insert magnetic field data
+    def insert_data_into_mag_field(self, field):
+        period = askingForPeriod()
+        calculatedTime = datetime.now(timezone.utc) - parsePeriod(period)
+        variant = int(input("Please enter the variant number: ")) # TODO: should be limited to 2
+        lsb = float(input("Please enter the LSB value: "))
+        x = float(input("Please enter the X value: "))
+        y = float(input("Please enter the Y value: "))
+        z = float(input("Please enter the Z value: "))
+
+        insertDataIntoMagField(variant, lsb, x, y, z, calculatedTime, self.adcsTag, self.write_api, self.bucket, self.org)
+        print("Magnetic field data inserted successfully")
+
     # helper function to get data from user
     def get_data_from_user(self):
         print("Please enter the data you want to insert: ")

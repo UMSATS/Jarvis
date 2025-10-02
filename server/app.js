@@ -1,10 +1,10 @@
 const express = require('express');
 const {logInfoMsgPrefix, logWarnMsgPrefix, logErrorMsgPrefix} = require('./utils/utils');
-const packageLock = require('./package-lock.json');
-const { wellsMeasurements } = require('./measurements/payloadMeasurements');
+const packageLock = require('./package-lock.json'); 
 
 // route imports, see ./routes folder
 const payloadRouter = require('./routes/payloadRoutes');
+const adcsController = require('./routes/adcsRoutes');
 
 const app = express();
 
@@ -50,5 +50,6 @@ app.get("/health", (req, res) => {
   
 // routes for each endpoint, see ./routes folder
 app.use('/payload', payloadRouter);
+app.use('/adcs', adcsController);
 
 module.exports = app;
