@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import {
-  labels, wellActivity
-} from '../components/ExperimentData.jsx';
 import { useQuery } from '@tanstack/react-query';
 import { fetchExperiment } from '../api/experiment.js';
 import Box from '@mui/material/Box';
@@ -9,6 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import TimeseriesChart from '../components/TimeseriesChart.jsx';
 import { useTimeContext } from "../components/TimeRangeContext.jsx";
+import { testTemperatureData, testLuminosityData, testWellActivity } from '../api/testData.js';
 
 const CHART_WIDTH = 800;
 
@@ -16,6 +14,8 @@ const chartSize = {
   width: CHART_WIDTH,
   height: 400 
 }
+
+const chartLabels = Array.from({length: 16}, (_, i) => `Well ${i + 1}`)
 
 export default function ExperimentTab() {
   const { timeRange } = useTimeContext();
@@ -44,8 +44,8 @@ export default function ExperimentTab() {
   }, [data]);
 
   const chartProps = {
-    labels: labels,
-    seriesActivity: !showInactiveWells ? wellActivity : undefined,
+    labels: chartLabels,
+    seriesActivity: !showInactiveWells ? testWellActivity : undefined,
     xmin: timeRange.start,
     xmax: timeRange.end,
     style: {...chartSize}

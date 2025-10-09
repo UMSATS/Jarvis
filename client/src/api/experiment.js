@@ -1,6 +1,7 @@
 // API functions for the Experiment tab
 
 import { fetchData } from './api';
+import { dateToRFC } from './utils';
 
 const NUMBER_OF_WELLS = 16;
 
@@ -8,8 +9,8 @@ const NUMBER_OF_WELLS = 16;
 const queryAllWells = async (start, end, key) => {
     let endpoint = `/payload/wells`
     
-    if (key == 'temperature') endpoint += `/temp`
-    else if (key == 'luminosity') endpoint += `/lumin`
+    if (key === 'temperature') endpoint += `/temp`
+    else if (key === 'luminosity') endpoint += `/lumin`
 
     const params = new URLSearchParams({start: dateToRFC(start), end: dateToRFC(end)})
 
@@ -32,8 +33,3 @@ export const fetchExperiment = async (start, end) => {
     ]);
     return { temperature, luminosity };
 };
-
-const dateToRFC = (d) => {
-    // removes the fractional seconds from the ISO string
-    return d.toISOString().replace(/\.\d{3}Z$/, 'Z');
-}
