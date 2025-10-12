@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import {
-  temperatureData, luminosityData, labels, wellActivity
-} from '../components/ExperimentData.jsx';
+import React, { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { fetchExperiment } from '../api/experiment.js';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import TimeseriesChart from '../components/TimeseriesChart.jsx';
 import { useTimeContext } from "../components/TimeRangeContext.jsx";
+import { testTemperatureData, testLuminosityData, testWellActivity } from '../api/testData.js';
 
 const CHART_WIDTH = 800;
 
@@ -15,14 +15,37 @@ const chartSize = {
   height: 400 
 }
 
+const chartLabels = Array.from({length: 16}, (_, i) => `Well ${i + 1}`)
+
 export default function ExperimentTab() {
   const { timeRange } = useTimeContext();
 
+  const [temperatureData, setTemperatureData] = useState([]);
+  const [luminosityData, setLuminosityData] = useState([]);
+
   const [showInactiveWells, setShowInactiveWells] = useState(true);
 
+  const { data, isError, error } = useQuery({
+    queryKey: ['experiment', timeRange.start, timeRange.end],
+    queryFn: () => fetchExperiment(timeRange.start, timeRange.end)
+  });
+
+  if (isError) console.log(error.message);
+
+  useEffect(() => {
+    if (data) {
+      if (data.temperature) {
+        setTemperatureData(data.temperature);
+      }
+      if (data.luminosity) {
+        setLuminosityData(data.luminosity);
+      }
+    }
+  }, [data]);
+
   const chartProps = {
-    labels: labels,
-    seriesActivity: !showInactiveWells ? wellActivity : undefined,
+    labels: chartLabels,
+    seriesActivity: !showInactiveWells ? testWellActivity : undefined,
     xmin: timeRange.start,
     xmax: timeRange.end,
     style: {...chartSize}
@@ -39,7 +62,7 @@ export default function ExperimentTab() {
       <TimeseriesChart 
         title="Luminosity (lm)"
         dataset={luminosityData}
-        ymin={550} ymax={850}
+        ymin={100} ymax={900}
         {...chartProps}
       />
       <FormControlLabel

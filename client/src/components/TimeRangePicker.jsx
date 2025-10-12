@@ -16,7 +16,7 @@ export default function TimeRangePicker() {
 
     const rangeRef = useRef({
         // Min (and maybe max) date should be based on data timestamps
-        min: new Date(timeRange.start.getTime() - 1000 * 3600 * 24 * 30),
+        min: new Date(timeRange.start.getTime() - 1000 * 3600 * 24 * 365),
         max: new Date(timeRange.end.getTime() + 1000 * 3600 * 24)
     });
 
