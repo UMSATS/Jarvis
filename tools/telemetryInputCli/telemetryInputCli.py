@@ -96,13 +96,14 @@ class TelemetryInputCli(cmd.Cmd):
     payloadTag = env.get('PAYLOAD_TAG')
     wellTempField = env.get('WELL_TEMP_FIELD')
     wellLuminField = env.get('WELL_LUMIN_FIELD')
+    adcsTag = env.get('ADCS_TAG')
     magField = env.get('MAG_FIELD')
     angVelocity = env.get('ANG_VEL')
     client = InfluxDBClient(url=url, token=token, org=org)
     write_api = client.write_api(write_options=SYNCHRONOUS)
     prompt = '> '
     intro = 'Welcome to the Telemetry Input CLI. Type help or ? to list commands.\n'
-
+    
     # exit the CLI
     def do_exit(self, arg):
         'Exit the CLI'
@@ -145,6 +146,16 @@ class TelemetryInputCli(cmd.Cmd):
         if not filePath:
             return
         self.insert_data_from_df(table, filePath)
+    
+    # insert magnetic field data with specified time
+    def do_insert_mag_field(self, arg):
+        'Insert magnetic field data with specified time'
+        self.insert_data_into_mag_field(self.magField)
+
+    # insert angular velocity data with specified time
+    def do_insert_angular_velocity(self, arg):
+        'Insert angular velocity data with specified time'
+        self.insert_data_into_angular_velocity(self.angVelocity)
 
     # helper function to insert data into all wells
     def insert_data_into_wells(self, field):
@@ -217,7 +228,7 @@ class TelemetryInputCli(cmd.Cmd):
     # Both of the following functions show up as "undocumented" in the CLI for the moment.
 
     # helper function to insert magnetic field data
-    def do_insert_data_into_mag_field(self, field):
+    def insert_data_into_mag_field(self, field):
         adcsTag = os.getenv("ADCS_TAG") # I don't like this, will probably do it another way
         period = askingForPeriod()
         calculatedTime = datetime.now(timezone.utc) - parsePeriod(period)
@@ -233,7 +244,7 @@ class TelemetryInputCli(cmd.Cmd):
         print("Magnetic field data inserted successfully")
 
     # helper function to insert angular velocity data
-    def do_insert_data_into_angular_velocity(self, field):
+    def insert_data_into_angular_velocity(self, field):
         adcsTag = os.getenv("ADCS_TAG")
         period = askingForPeriod()
         calculatedTime = datetime.now(timezone.utc) - parsePeriod(period)
