@@ -229,7 +229,6 @@ class TelemetryInputCli(cmd.Cmd):
 
     # helper function to insert magnetic field data
     def insert_data_into_mag_field(self, field):
-        adcsTag = os.getenv("ADCS_TAG") # I don't like this, will probably do it another way
         period = askingForPeriod()
         calculatedTime = datetime.now(timezone.utc) - parsePeriod(period)
         variant = int(input("Please enter the variant number: "))
@@ -240,12 +239,11 @@ class TelemetryInputCli(cmd.Cmd):
         y = float(input("Please enter the Y value: "))
         z = float(input("Please enter the Z value: "))
 
-        insertDataIntoMagField(variant, lsb, x, y, z, calculatedTime, adcsTag, self.write_api, self.bucket, self.org)
+        insertDataIntoMagField(variant, lsb, x, y, z, calculatedTime, self.adcsTag, self.write_api, self.bucket, self.org)
         print("Magnetic field data inserted successfully")
 
     # helper function to insert angular velocity data
     def insert_data_into_angular_velocity(self, field):
-        adcsTag = os.getenv("ADCS_TAG")
         period = askingForPeriod()
         calculatedTime = datetime.now(timezone.utc) - parsePeriod(period)
         variant = int(input("Please enter the variant number: "))
@@ -255,7 +253,7 @@ class TelemetryInputCli(cmd.Cmd):
         y = float(input("Please enter the Y value: "))
         z = float(input("Please enter the Z value: "))
 
-        insertDataIntoAngVelocity(variant, x, y, z, calculatedTime, adcsTag, self.write_api, self.bucket, self.org)
+        insertDataIntoAngVelocity(variant, x, y, z, calculatedTime, self.adcsTag, self.write_api, self.bucket, self.org)
         print("Angular Velocity Data inserted successfully")
 
     # helper function to get data from user
