@@ -63,6 +63,15 @@ def insertDataIntoWell(well: int, field: str, data: float, time: datetime, host:
     point = Point("well").tag("well", well).field(field, data).time(time, WritePrecision.NS).tag("host", host)
     write_api.write(bucket, org, point)
 
+# insert data into magnetic field
+def insertDataIntoMagField(variant: int, lsb: float, x: float, y: float, z: float, time: datetime, host: str, write_api, bucket: str, org: str):
+    point = Point("magField").tag("variant", variant).field("LSB", lsb).field("X", x).field("Y", y).field("Z", z).time(time, WritePrecision.NS).tag("host", host)
+    write_api.write(bucket, org, point)
+
+def insertDataIntoAngVelocity(variant: int, x: float, y: float, z: float, time: datetime, host: str, write_api, bucket: str, org: str):
+    point = Point("angVelocity").tag("variant", variant).field("X", x).field("Y", y).field("Z", z).time(time, WritePrecision.NS).tag("host", host)
+    write_api.write(bucket, org, point)
+
 # ask for file path
 def askingForFilePath() -> str:
     path = input("Please enter the file path: ")
@@ -87,6 +96,8 @@ class TelemetryInputCli(cmd.Cmd):
     payloadTag = env.get('PAYLOAD_TAG')
     wellTempField = env.get('WELL_TEMP_FIELD')
     wellLuminField = env.get('WELL_LUMIN_FIELD')
+    magField = env.get('MAG_FIELD')
+    angVelocity = env.get('ANG_VEL')
     client = InfluxDBClient(url=url, token=token, org=org)
     write_api = client.write_api(write_options=SYNCHRONOUS)
     prompt = '> '
@@ -200,18 +211,41 @@ class TelemetryInputCli(cmd.Cmd):
             return
         print(f"Data from {filePath} inserted into {table} table successfully.")
 
+    # do_insert_data_into_mag_field and do_insert_data_into_angular_velocity need a 
+    # more work, definitely need to rewrite some code, just wanted to get something 
+    # "working" for the moment.
+    # Both of the following functions show up as "undocumented" in the CLI for the moment.
+
     # helper function to insert magnetic field data
-    def insert_data_into_mag_field(self, field):
+    def do_insert_data_into_mag_field(self, field):
+        adcsTag = os.getenv("ADCS_TAG") # I don't like this, will probably do it another way
         period = askingForPeriod()
         calculatedTime = datetime.now(timezone.utc) - parsePeriod(period)
-        variant = int(input("Please enter the variant number: ")) # TODO: should be limited to 2
+        variant = int(input("Please enter the variant number: "))
+        while (variant != 1 and variant != 2):
+            variant = int(input("Please enter the variant number: "))
         lsb = float(input("Please enter the LSB value: "))
         x = float(input("Please enter the X value: "))
         y = float(input("Please enter the Y value: "))
         z = float(input("Please enter the Z value: "))
 
-        insertDataIntoMagField(variant, lsb, x, y, z, calculatedTime, self.adcsTag, self.write_api, self.bucket, self.org)
+        insertDataIntoMagField(variant, lsb, x, y, z, calculatedTime, adcsTag, self.write_api, self.bucket, self.org)
         print("Magnetic field data inserted successfully")
+
+    # helper function to insert angular velocity data
+    def do_insert_data_into_angular_velocity(self, field):
+        adcsTag = os.getenv("ADCS_TAG")
+        period = askingForPeriod()
+        calculatedTime = datetime.now(timezone.utc) - parsePeriod(period)
+        variant = int(input("Please enter the variant number: "))
+        while (variant != 1 and variant != 2):
+            variant = int(input("Please enter the variant number: "))
+        x = float(input("Please enter the X value: "))
+        y = float(input("Please enter the Y value: "))
+        z = float(input("Please enter the Z value: "))
+
+        insertDataIntoAngVelocity(variant, x, y, z, calculatedTime, adcsTag, self.write_api, self.bucket, self.org)
+        print("Angular Velocity Data inserted successfully")
 
     # helper function to get data from user
     def get_data_from_user(self):
