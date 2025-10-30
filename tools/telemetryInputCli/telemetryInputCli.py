@@ -194,6 +194,7 @@ class TelemetryInputCli(cmd.Cmd):
         else:
             print("Unsupported file format. Please provide a CSV file.")
             return
+        
         # print out record
         print(f"Loading {len(df)} records from {filePath} for table {table}.")
         if df.empty:
@@ -205,6 +206,7 @@ class TelemetryInputCli(cmd.Cmd):
         else:
             print("No timestamp column found in the data.")
             return
+        
         # insert data into influxdb
         if table == self.wellTempField or table == self.wellLuminField:
             for index, row in df.iterrows():
@@ -217,15 +219,39 @@ class TelemetryInputCli(cmd.Cmd):
                             insertDataIntoWell(well_num, table, data, time, self.payloadTag, self.write_api, self.bucket, self.org)
                 else:
                     print(f"Invalid well number {well_num} at index {index}. Skipping this record.")
+        
+        elif table == self.magField:
+            for index, row in df.iterrows():
+                variant = row.get('variant')
+                if pd.notnull(variant) and (variant == 1 or variant == 2):
+                    time = row.get('timestamp')
+                    if time is not None:
+                        lsb = row.get('LSB') #  Figure out what the restriction is for lsb
+                        x = row.get('X')
+                        y = row.get('Y')
+                        z = row.get('Z')
+                        if pd.notnull(lsb):
+                            insertDataIntoMagField(variant, lsb, x, y, z, time, self.adcsTag, self.write_api, self.bucket, self.org)
+                else:
+                    print(f"Incorrect variant {variant} at index {index}. Skipping this record.")
+
+        elif table == self.angVelocity:
+            for index, row in df.iterrows():
+                variant = row.get('variant')
+                if pd.notnull(variant) and (variant == 1 or variant == 2):     
+                    time = row.get('timestamp')
+                    if time is not None:
+                        x = row.get('X')
+                        y = row.get('Y')
+                        z = row.get('Z')
+                        insertDataIntoAngVelocity(variant, x, y, z, time, self.adcsTag, self.write_api, self.bucket, self.org)
+                else: 
+                    print(f"Incorrect variant {variant} at index {index}. Skipping this record.")
+        
         else:
-            print(f"Unsupported table {table}. Only 'temp' and 'lumin' are supported for bulk insert.")
+            print(f"Unsupported table {table}. Only 'temp', 'lumin', 'magfield', and 'angvel' are supported for bulk insert.")
             return
         print(f"Data from {filePath} inserted into {table} table successfully.")
-
-    # do_insert_data_into_mag_field and do_insert_data_into_angular_velocity need a 
-    # more work, definitely need to rewrite some code, just wanted to get something 
-    # "working" for the moment.
-    # Both of the following functions show up as "undocumented" in the CLI for the moment.
 
     # helper function to insert magnetic field data
     def insert_data_into_mag_field(self, field):

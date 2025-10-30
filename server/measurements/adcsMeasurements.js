@@ -1,4 +1,4 @@
-const {queryApi} = require('../db/dbSingleton');
+const { queryApi } = require('../db/dbSingleton');
 const { db_bucket } = require('../config/env');
 const { logInfoMsgPrefix, logWarnMsgPrefix, logErrorMsgPrefix } = require('../utils/utils');
 

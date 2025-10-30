@@ -10,3 +10,20 @@ tables: # for read the data frame file
       - timestamp
       - well_num
       - luminosity
+
+  - name: angvel
+    columns:
+      - variant
+      - timestamp
+      - X
+      - Y
+      - Z
+    
+  - name: magfield
+    columns:
+      - variant
+      - timestamp
+      - LSB
+      - X
+      - Y
+      - Z
