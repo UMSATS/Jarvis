@@ -58,8 +58,8 @@ async function angVelocityMeasurements(variant_num, start, end) {
         |> filter(fn: (r) => r["_measurement"] == "${angVelocityMeasurementsTag}")
         |> filter(fn: (r) => r["host"] == "${adcsTags}")
         |> filter(fn: (r) => r["variant"] == "${variant_num}")
-        |> keep(columns: ["_time", "_value", "variant", _field])
-        |> group(columns: ["_time])`;
+        |> keep(columns: ["_time", "_value", "variant", "_field"])
+        |> group(columns: ["_time"])`;
     
     return new Promise((resolve, reject) => {
         let result = [];
