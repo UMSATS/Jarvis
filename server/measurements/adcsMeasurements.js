@@ -33,8 +33,8 @@ async function magFieldMeasurements(variant_num, start, end) {
         |> filter(fn: (r) => r["_measurement"] == "${magFieldMeasurementsTag}")
         |> filter(fn: (r) => r["host"] == "${adcsTags}")
         |> filter(fn: (r) => r["variant"] == "${variant_num}")
-        |> keep(columns: ["_time", "_value", "variant", _field])
-        |> group(columns: ["_time])`;
+        |> keep(columns: ["_time", "_value", "variant", "_field"])
+        `;
     return new Promise((resolve, reject) => {
         let result = [];
         queryApi.queryRows(query, {

@@ -1,6 +1,7 @@
 const { logInfoMsgPrefix, logWarnMsgPrefix, logErrorMsgPrefix } = require('../utils/utils');
-const { magFieldMeasurements, angVelocityMeasurements, adcsTags, magFieldMeasurementsTag, magFieldMeasurementsFields, angVelocityMeasurementsTag, angVelocityMeasurementsFields } = require('../measurements/adcsMeasurements');
-
+const { adcsTags, magFieldMeasurementsTag, magFieldMeasurementsFields, angVelocityMeasurementsTag, angVelocityMeasurementsFields } = require('../measurements/adcsMeasurements');
+const angVelocityMeasurements = require('../measurements/adcsMeasurements');
+const magFieldMeasurements = require('../measurements/adcsMeasurements');
 /**
  * adcs.js
  * @brief This file contains the controller functions for the ADCS API
@@ -53,14 +54,34 @@ const getMagFieldData = async (req, res) => {
     }
 
     try {
-        const data = await magFieldMeasurements(variant, start, end);
-        console.log(logInfoMsgPrefix('ADCS magnetic field data fetched successfully'));
-        res.status(200).json({
-            variant: variant,
-            start: start,
-            end: end,
-            data: data
+        const queryResult = await magFieldMeasurements.magFieldMeasurements(variant, start, end);
+        
+        const merged = {};
+
+        queryResult.forEach(item => {
+            const time = item._time;
+            
+            if (!merged[time]) {
+                merged[time] = {
+                variant: item.variant,
+                timestamp: time,
+                LSB: null,
+                X: null,
+                Y: null,
+                Z: null
+            };
+        }
+
+        const axis = item._field.toUpperCase();
+        merged[time][axis] = item._value;
+        
         });
+
+        const finalOutput = Object.values(merged);
+        console.log(logInfoMsgPrefix('ADCS magnetic field data fetched successfully'));
+
+        res.status(200).json(finalOutput);
+
     } catch (error) {
         console.error(logErrorMsgPrefix('Error fetching ADCS magnetic field data'), error);
         res.status(500).json({ error: 'Internal server error' });
@@ -68,7 +89,7 @@ const getMagFieldData = async (req, res) => {
 };
 
 const getAngVelocityData = async (req, res) => {
-    console.log(logInfoMsgPrefix('ADCS angular velocityy check'), 'request_body:', req.body);
+    console.log(logInfoMsgPrefix('ADCS angular velocity check'), 'request_body:', req.body);
     const variant = req.params.variant;
     let { start, end } = req.query; // extract query parameters
 
@@ -114,14 +135,33 @@ const getAngVelocityData = async (req, res) => {
     }
 
     try {
-        const data = await angVelocityMeasurements(variant, start, end);
-        console.log(logInfoMsgPrefix('ADCS angular velocity data fetched successfully'));
-        res.status(200).json({
-            variant: variant,
-            start: start,
-            end: end,
-            data: data
+        const queryResult = await angVelocityMeasurements.angVelocityMeasurements(variant, start, end);
+        
+        const merged = {};
+
+        queryResult.forEach(item => {
+            const time = item._time;
+
+            if (!merged[time]) {
+                merged[time] = {
+                variant: item.variant,
+                timestamp: time,
+                X: null,
+                Y: null,
+                Z: null
+            };
+        }
+
+        const axis = item._field.toUpperCase();
+        merged[time][axis] = item._value;
+       
         });
+
+        const finalOutput = Object.values(merged);
+        console.log(logInfoMsgPrefix('ADCS angular velocity data fetched successfully'));
+
+        res.status(200).json(finalOutput);
+
     } catch (error) {
         console.error(logErrorMsgPrefix('Error fetching ADCS angular velocity data'), error);
         res.status(500).json({ error: 'Internal server error' });
