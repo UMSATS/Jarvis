@@ -22,7 +22,7 @@ const getMagFieldData = async (req, res) => {
     // check if variant is valid
     if (variant < 1 || variant > 2) {
         console.log(logWarnMsgPrefix(`Invalid variant number provided: ${variant}`));
-        res.status(400).json({ error: 'Invalid variant number provided, must be between 1 and 16' });
+        res.status(400).json({ error: 'Invalid variant number provided, must be 1 or 2' });
         return;
     }
 
@@ -103,7 +103,7 @@ const getAngVelocityData = async (req, res) => {
     // check if variant is valid
     if (variant < 1 || variant > 2) {
         console.log(logWarnMsgPrefix(`Invalid variant number provided: ${variant}`));
-        res.status(400).json({ error: 'Invalid variant number provided, must be between 1 and 16' });
+        res.status(400).json({ error: 'Invalid variant number provided, must be between 1 or 2' });
         return;
     }
 
