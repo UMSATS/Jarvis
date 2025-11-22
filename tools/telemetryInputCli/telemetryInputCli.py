@@ -63,6 +63,15 @@ def insertDataIntoWell(well: int, field: str, data: float, time: datetime, host:
     point = Point("well").tag("well", well).field(field, data).time(time, WritePrecision.NS).tag("host", host)
     write_api.write(bucket, org, point)
 
+# insert data into magnetic field
+def insertDataIntoMagField(variant: int, lsb: float, x: float, y: float, z: float, time: datetime, host: str, write_api, bucket: str, org: str):
+    point = Point("magField").tag("variant", variant).field("LSB", lsb).field("X", x).field("Y", y).field("Z", z).time(time, WritePrecision.NS).tag("host", host)
+    write_api.write(bucket, org, point)
+
+def insertDataIntoAngVelocity(variant: int, x: float, y: float, z: float, time: datetime, host: str, write_api, bucket: str, org: str):
+    point = Point("angVelocity").tag("variant", variant).field("X", x).field("Y", y).field("Z", z).time(time, WritePrecision.NS).tag("host", host)
+    write_api.write(bucket, org, point)
+
 # ask for file path
 def askingForFilePath() -> str:
     path = input("Please enter the file path: ")
@@ -87,11 +96,14 @@ class TelemetryInputCli(cmd.Cmd):
     payloadTag = env.get('PAYLOAD_TAG')
     wellTempField = env.get('WELL_TEMP_FIELD')
     wellLuminField = env.get('WELL_LUMIN_FIELD')
+    adcsTag = env.get('ADCS_TAG')
+    magField = env.get('MAG_FIELD')
+    angVelocity = env.get('ANG_VEL')
     client = InfluxDBClient(url=url, token=token, org=org)
     write_api = client.write_api(write_options=SYNCHRONOUS)
     prompt = '> '
     intro = 'Welcome to the Telemetry Input CLI. Type help or ? to list commands.\n'
-
+    
     # exit the CLI
     def do_exit(self, arg):
         'Exit the CLI'
@@ -134,6 +146,16 @@ class TelemetryInputCli(cmd.Cmd):
         if not filePath:
             return
         self.insert_data_from_df(table, filePath)
+    
+    # insert magnetic field data with specified time
+    def do_insert_mag_field(self, arg):
+        'Insert magnetic field data with specified time'
+        self.insert_data_into_mag_field(self.magField)
+
+    # insert angular velocity data with specified time
+    def do_insert_angular_velocity(self, arg):
+        'Insert angular velocity data with specified time'
+        self.insert_data_into_angular_velocity(self.angVelocity)
 
     # helper function to insert data into all wells
     def insert_data_into_wells(self, field):
@@ -172,6 +194,7 @@ class TelemetryInputCli(cmd.Cmd):
         else:
             print("Unsupported file format. Please provide a CSV file.")
             return
+        
         # print out record
         print(f"Loading {len(df)} records from {filePath} for table {table}.")
         if df.empty:
@@ -183,6 +206,7 @@ class TelemetryInputCli(cmd.Cmd):
         else:
             print("No timestamp column found in the data.")
             return
+        
         # insert data into influxdb
         if table == self.wellTempField or table == self.wellLuminField:
             for index, row in df.iterrows():
@@ -195,10 +219,68 @@ class TelemetryInputCli(cmd.Cmd):
                             insertDataIntoWell(well_num, table, data, time, self.payloadTag, self.write_api, self.bucket, self.org)
                 else:
                     print(f"Invalid well number {well_num} at index {index}. Skipping this record.")
+        
+        elif table == self.magField:
+            for index, row in df.iterrows():
+                variant = row.get('variant')
+                if pd.notnull(variant) and (variant == 1 or variant == 2):
+                    time = row.get('timestamp')
+                    if time is not None:
+                        lsb = row.get('LSB') #  Figure out what the restriction is for lsb
+                        x = row.get('X')
+                        y = row.get('Y')
+                        z = row.get('Z')
+                        if pd.notnull(lsb):
+                            insertDataIntoMagField(variant, lsb, x, y, z, time, self.adcsTag, self.write_api, self.bucket, self.org)
+                else:
+                    print(f"Incorrect variant {variant} at index {index}. Skipping this record.")
+
+        elif table == self.angVelocity:
+            for index, row in df.iterrows():
+                variant = row.get('variant')
+                if pd.notnull(variant) and (variant == 1 or variant == 2):     
+                    time = row.get('timestamp')
+                    if time is not None:
+                        x = row.get('X')
+                        y = row.get('Y')
+                        z = row.get('Z')
+                        insertDataIntoAngVelocity(variant, x, y, z, time, self.adcsTag, self.write_api, self.bucket, self.org)
+                else: 
+                    print(f"Incorrect variant {variant} at index {index}. Skipping this record.")
+        
         else:
-            print(f"Unsupported table {table}. Only 'temp' and 'lumin' are supported for bulk insert.")
+            print(f"Unsupported table {table}. Only 'temp', 'lumin', 'magfield', and 'angvel' are supported for bulk insert.")
             return
         print(f"Data from {filePath} inserted into {table} table successfully.")
+
+    # helper function to insert magnetic field data
+    def insert_data_into_mag_field(self, field):
+        period = askingForPeriod()
+        calculatedTime = datetime.now(timezone.utc) - parsePeriod(period)
+        variant = int(input("Please enter the variant number: "))
+        while (variant != 1 and variant != 2):
+            variant = int(input("Please enter the variant number: "))
+        lsb = float(input("Please enter the LSB value: "))
+        x = float(input("Please enter the X value: "))
+        y = float(input("Please enter the Y value: "))
+        z = float(input("Please enter the Z value: "))
+
+        insertDataIntoMagField(variant, lsb, x, y, z, calculatedTime, self.adcsTag, self.write_api, self.bucket, self.org)
+        print("Magnetic field data inserted successfully")
+
+    # helper function to insert angular velocity data
+    def insert_data_into_angular_velocity(self, field):
+        period = askingForPeriod()
+        calculatedTime = datetime.now(timezone.utc) - parsePeriod(period)
+        variant = int(input("Please enter the variant number: "))
+        while (variant != 1 and variant != 2):
+            variant = int(input("Please enter the variant number: "))
+        x = float(input("Please enter the X value: "))
+        y = float(input("Please enter the Y value: "))
+        z = float(input("Please enter the Z value: "))
+
+        insertDataIntoAngVelocity(variant, x, y, z, calculatedTime, self.adcsTag, self.write_api, self.bucket, self.org)
+        print("Angular Velocity Data inserted successfully")
 
     # helper function to get data from user
     def get_data_from_user(self):

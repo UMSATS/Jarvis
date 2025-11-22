@@ -66,7 +66,7 @@ const getWellData = async (req, res, field) => {
             timestamp: item._time,
             [field]: item._value
         }));
-
+            
         res.status(200).json(formattedResult);
         console.log(logInfoMsgPrefix(`Well ${field} data fetched successfully: ${wellNum}`));
     } catch (error) {

@@ -2,3 +2,5 @@
 
 !examples/data_temp.csv
 !examples/data_lumin.csv
+!examples/data_angvel.csv
+!examples/data_magField.csv
