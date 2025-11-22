@@ -1,5 +1,4 @@
 const { logInfoMsgPrefix, logWarnMsgPrefix, logErrorMsgPrefix } = require('../utils/utils');
-const { adcsTags, magFieldMeasurementsTag, magFieldMeasurementsFields, angVelocityMeasurementsTag, angVelocityMeasurementsFields } = require('../measurements/adcsMeasurements');
 const angVelocityMeasurements = require('../measurements/adcsMeasurements');
 const magFieldMeasurements = require('../measurements/adcsMeasurements');
 /**
