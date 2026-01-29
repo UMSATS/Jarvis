@@ -17,8 +17,7 @@ const queryMagFieldData = async (start, end) => {
     const responses = await Promise.all(requests);
 
     return responses.map((magfieldData) => 
-        magfieldData.map(item => [item.variant, item.timestamp, item.X, item.Y, item.Z]),
-        console.log(responses.length)
+        magfieldData.map(item => [item.variant, item.timestamp, item.LSB, item.X, item.Y, item.Z])
     );
 }
 
@@ -34,8 +33,7 @@ const queryAngFieldData = async (start, end) => {
     const responses = await Promise.all(requests);
 
     return responses.map((angFieldData) => 
-        angFieldData.map(item => [item.variant, item.timestamp, item.X, item.Y, item.Z]),
-        console.log(responses.length)
+        angFieldData.map(item => [item.variant, item.timestamp, item.X, item.Y, item.Z])
     );
 }
 

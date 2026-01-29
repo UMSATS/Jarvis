@@ -33,6 +33,7 @@ export default function OrientationTab() {
   // mag field data
   const [magneticData, setMagneticData] = useState([]);
   const [magVariants, setMagVariants] = useState([]);
+  const [magLSB, setMagLSB] = useState([]);
   const [magTime, setMagTime] = useState([]);
   const [magX, setMagX] = useState([]);
   const [magY, setMagY] = useState([]);
@@ -52,6 +53,7 @@ export default function OrientationTab() {
       const end   = new Date('2025-09-10T00:00:00Z');
 
       const initialmagvariants = [];
+      const initialmaglsb = [];
       const initialmagtimes = [];
       const initialmagx = [];
       const initialmagy = [];
@@ -69,21 +71,19 @@ export default function OrientationTab() {
       // variant -> timestamp -> X -> Y -> Z
       for (let i = 0; i < magnetic.length; i++) {
         for (let j = 0; j < magnetic[i].length; j++) {
-            console.log(magnetic[0].length);
-
             if (magnetic[i][j][0] === '1') { initialmagvariants.push("Primary"); }
             else if (magnetic[i][j][0] === '2') { initialmagvariants.push("Backup"); }
+            initialmaglsb.push(magnetic[i][j][2]);
+            console.log(magnetic[i][j][2]);
             initialmagtimes.push(magnetic[i][j][1]);
-            initialmagx.push(magnetic[i][j][2]);
-            initialmagy.push(magnetic[i][j][3]);
-            initialmagz.push(magnetic[i][j][4]);
+            initialmagx.push(magnetic[i][j][3]);
+            initialmagy.push(magnetic[i][j][4]);
+            initialmagz.push(magnetic[i][j][5]);
         }
       }
 
       for (let i = 0; i < angvel.length; i++) {
         for (let j = 0; j < angvel[i].length; j++) {
-            console.log(angvel[0].length);
-
             if (angvel[i][j][0] === '1') { initialAngVelVariants.push("Primary"); }
             else if (angvel[i][j][0] === '2') { initialAngVelVariants.push("Backup"); }
             initialAngVelTimes.push(angvel[i][j][1]);
@@ -94,6 +94,7 @@ export default function OrientationTab() {
       }
 
       setMagVariants(initialmagvariants);
+      setMagLSB(initialmaglsb);
       setMagTime(initialmagtimes);
       setMagX(initialmagx);
       setMagY(initialmagy);
@@ -133,6 +134,14 @@ export default function OrientationTab() {
                 <p>{variant}</p>
               ))
             }
+          </p> 
+          <p>
+            LSB {magLSB.length}: 
+            {
+              magLSB.map((lsb, index) => (
+                <p>{String(lsb)}</p>
+              ))
+            }
           </p>
           <p>
             Time: 
@@ -167,6 +176,7 @@ export default function OrientationTab() {
             }
           </p>
           </div>
+          <hr />
           <div style={{ display: 'flex', flexDirection: 'row', gap: '10px'}} >
           <p>
             VARIANT:
