@@ -136,7 +136,7 @@ export default function OrientationTab() {
             }
           </p> 
           <p>
-            LSB {magLSB.length}: 
+            LSB: 
             {
               magLSB.map((lsb, index) => (
                 <p>{String(lsb)}</p>
