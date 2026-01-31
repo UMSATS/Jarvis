@@ -9,7 +9,7 @@ const db_password = process.env.DB_PASS;
 const db_adminToken = process.env.DB_TOKEN;
 const db_bucket = process.env.DB_BUCKET;
 const db_org = process.env.DB_ORG;
-const api_port = 5000;
+const api_port = 5001; // port 5000 is used by macOS 
 
 if(!db_url){
     console.error('DB_URL is not set');
